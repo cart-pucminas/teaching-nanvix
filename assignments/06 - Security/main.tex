@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+
+
+\usepackage[parfill]{parskip}
+
+\title{Segurança}
+
+\author{Pedro H. Penna, João Caram e Henrique C. Freitas\\[0.3em]
+\small Pontifícia Universidade Católica de Minas Gerais}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\noindent
+Além de prover uma abstração do hardware de maneira eficiente e robusta, o sistema operacional deve fazer isso de forma segura, certificando que nenhum usuário monopolize recursos, derrube o sistema e nem acesse informações sem autorização necessária, seja isso intencional ou não. Nesse projeto, você lidará com aspectos relacionados à segurança de um sistema operacional explorando vulnerabilidades presentes no Nanvix.
+
+\end{abstract}
+
+\subsubsection*{Fundamentação Teórica}
+
+Sob o ponto de vista de segurança, as vulnerabilidades de um sistema podem ser classificadas em três classes:
+
+\begin{itemize}
+	\item Confidencialidade
+	\item Integridade
+	\item Disponibilidade
+\end{itemize}
+
+Vulnerabilidades de confidencialidade e integridade dizem respeito ao acesso e modificação não autorizado de dados, respectivamente. Por exemplo, quando um usuário $A$ consegue visualizar documentos de um outro usuário $B$ sem autorização prévia do último, tem-se uma vulnerabilidade de confidencialidade. Por outro lado, se o usuário $A$ conseguir alterar o conteúdo desses documentos, dizemos que houve uma vulnerabilidade de integridade, uma vez que a informação foi adulterada pelo usuário (malicioso) $A$, sem o consentimento do usuário $B$. Em resumo, essas duas vulnerabilidades estão relacionadas aos dados de usuários e são geralmente exploradas através de falhas de segurança presentes no sistema de arquivos, apesar de também serem possíveis através técnicas de violação de memória.
+
+Já vulnerabilidades de disponibilidade estão relacionadas à baixa (ou nenhuma) disponibilidade para computação do sistema. Por exemplo, imagine um programa de usuário $C$ que faça uso intenso do disco rígido, por exemplo um programa de \textit{backup}. Caso o sistema não efetue o escalonamento de operações de disco entre os diferentes processos presentes no sistema de maneira justa, o programa $C$ pode acabar por dominar as filas de disco fazendo com que operações dos demais processos sejam postergadas por um longo tempo. Nesse cenário fictício, os processos do sistema estariam prejudicados quanto à operações de entrada e saída no disco rígido, mas ainda conseguiriam realizar computação. Em um cenário mais problemático, no entanto, um processo $D$ poderia vir a derrubar todo o sistema, após invocar por exemplo invocando uma chamada de sistema inválida e provocando um pânico no \textit{kernel}.
+
+\subsubsection*{Descrição do Projeto}
+
+Nesse projeto, você deverá encontrar e explorar vulnerabilidades existentes no Nanvix. Intencionalmente, para cada uma das classes de vulnerabilidade discutidas, algumas falhas foram deixadas no sistema:
+
+\begin{itemize}
+	\item Confidencialidade: exposição de senhas e de dados em memória
+	\item Integridade: escalação de privilégios 
+	\item Disponibilidade: negação e indisponibilidade de serviço
+\end{itemize}
+
+Sua tarefa consiste em encontrar e explorar ao menos três das cinco falhas apontadas. Para isso, use os conceitos e técnicas vistos em sala de aula, e recorra à documentação do sistema. Antes de iniciar o projeto, certifique-se que você tem a versão mais recente do Nanvix, com a opção de multiusuário habilitada\footnote{Para habilitar suporte à multiusuário altere o arquivo \texttt{include/nanvix/config.h}}\footnote{Usuário: \texttt{noob}, senha: \texttt{noob}.}. Você deverá entregar um relatório descrevendo as falhas encontradas, como elas foram exploradas e os códigos-fonte usados.
+
+\subsubsection*{Recompensas}
+
+Além das falhas indicadas, uma falha de \textit{buffer overflow} está presente no sistema. O grupo que conseguir encontrá-la e explorará-la será devidamente recompensado.
+
+\end{document}

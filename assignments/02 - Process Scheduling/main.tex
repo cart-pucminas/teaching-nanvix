@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+
+
+\usepackage[parfill]{parskip}
+
+\title{Escalonamento de Processos}
+
+\author{Pedro H. Penna, João Caram e Henrique C. Freitas\\[0.3em]
+\small Pontifícia Universidade Católica de Minas Gerais}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\noindent Processos consistem na abstração fundamental de um sistema operacional: todo o resto do sistema é arquitetado com base nesta entidade. Neste projeto, você trabalhará com o principal componente do módulo de gerenciamento de processos do Nanvix, o escalonador de processos. Primeiramente, você irá estudar como o componente existente opera e, em seguida, irá propor melhorias a ele.
+
+\end{abstract}
+
+\subsubsection*{Fundamentação Teórica}
+
+O Nanvix é um sistema operacional multitarefa, isto é, ele suporta a execução simultânea de diferentes programas. O modo como esta funcionalidade é proporcionada, tanto no Nanvix quanto em outros sistemas, é simples. Cada programa é abstraído por uma entidade denominada processo, que encapsula o fluxo de execução, as variáveis, a pilha de execução e várias outras informações importantes relacionadas ao programa. Então, com esta abstração, tudo o que o sistema faz é alternar rapidamente entre as tarefas, proporcionando a ilusão de simultaneidade.
+
+O procedimento de alternar tarefas em si é direto, envolve apenas recarregar os registradores de máquina e as variáveis de ambiente com os dados do processo sendo admitido para execução. A etapa crítica, no entanto, está na escolha do processo a ser admitido para execução. Com vários processos residentes no sistema, diversas escolhas são possíveis: admitir o processo que estiver aguardando há mais tempo, admitir o processo que precisará do menor tempo para terminar, ou então admitir o processo com a mais alta prioridade, segundo um critério pré-estabelecido. Essa escolha é feita pelo módulo do sistema denominado escalonador de processos e exerce influência direta no desempenho, responsividade e política de justiça do sistema.
+
+\subsubsection*{Descrição do Projeto}
+
+O escalonador de processos do Nanvix adota a simples política \textit{round-robin}: atribuir a cada processo um \textit{quantum} de tempo e então escaloná-los seguindo o critério \textit{first-in first-out}. Para tanto, o sistema mantém, para cada processo, um contador que indica o tempo em que um processo está aguardando para executar. Quando o \textit{quantum} do processo executando acaba, o processo com maior contador é selecionado, atribuído a um novo \textit{quantum} e, então, colocado para executar.
+
+Essa política, de fácil implementação, é adequada para sistemas monotarefa simples, mas é insuficiente para sistemas mais robustos, com suporte a multitarefa, como o Nanvix. Suponha uma situação em que exista um processo que interage com o usuário, por exemplo um terminal, e outros 99 processos famintos por tempo de processador. Se o sistema atribui a cada processo 100 ms de \textit{quantum}, cada processo executará a cada dez segundos. Apesar de plausível para os 99 processos limitados pelo tempo de processamento, esse tempo de espera para o processo de terminal é inadmissível.
+
+Para resolver este problema, você deverá implementar uma política de escalonamento mais robusta, baseada em prioridade. Toda vez que uma decisão de escalonamento tiver de ser tomada, o processo com a mais alta prioridade é selecionado. O esquema de prioridades implementado pode ser estático, mas tenha em mente que desenvolver um mecanismo dinâmico pode ser interessante. Junto com o projeto você deverá entregar uma pequena descrição sobre a solução implementada. Programas-exemplo serão fornecidos para que você teste o escalonador implementado e argumente, quais são as vantagens e (possíveis) desvantagens da estratégia projetada.
+
+\subsubsection*{Por Onde Começar?}
+
+O código do gerenciador de processos do Nanvix está no diretório \texttt{kernel/pm}, dividido em vários arquivos, dentre eles:
+
+\begin{itemize}
+    \item \texttt{pm.c}: inicialização do gerenciador de processos.
+    \item \texttt{sched.c}: escalonamento de processos.
+    \item \texttt{sleep.c}: implementação das funções utilitárias \texttt{sleep()} e \texttt{wakeup()}.
+\end{itemize}
+
+Nesse projeto, você deve se atentar ao arquivo \texttt{sched.c}, principalmente na função \texttt{yield()}, que implementa a função de escalonamento.
+
+\end{document}

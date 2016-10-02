@@ -1,0 +1,60 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+
+
+\usepackage[parfill]{parskip}
+
+\title{Substituição de Páginas}
+
+\author{Pedro H. Penna, João Caram e Henrique C. Freitas\\[0.3em]
+\small Pontifícia Universidade Católica de Minas Gerais}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\noindent A memória de um computador é organizada em uma hierarquia, com o sistema operacional atuando como gerente. Nessa organização, uma função fundamental é a de manter páginas utilizadas em memória e descarregar as não necessárias em disco. No Nanvix, essa tarefa é de responsabilidade do substituidor de páginas e nesse projeto você deverá propor melhorias a ele.
+
+\end{abstract}
+
+\subsubsection*{Fundamentação Teórica}
+
+Para proporcionar a ilusão de um computador com memória infinitamente grande, rápida e não volátil, a memória de um computador é organizada em uma hierarquia, com memórias pequenas, voláteis e de acesso rápido nos primeiros níveis, e memórias lentas, densas e não voláteis nos últimos.
+
+Nessa hierarquia, o papel do sistema operacional é o de realizar a gerência de maneira eficiente e transparente ao programador. Então, para alcançar esse objetivo, sistemas operacionais modernos, recorrem a uma técnica híbrida de \textit{hardware} e \textit{software}, denominada memória virtual.
+
+Nessa técnica, o espaço de endereçamento de um processo é dividido em regiões de mesmo tamanho, denominadas páginas, que, por sua vez, são mapeados em regiões de tamanho correspondente na memória física, denominadas quadros de página. Assim, um conjunto de processos pode compartilhar a memória física, mesmo que não caibam integralmente nela.
+
+Para tanto, tudo o que o sistema operacional deve fazer é manter as páginas mais utilizadas na memória, armazenando em disco aquelas que não são mais necessárias. Essa gerência exerce influência direta no desempenho final do sistema e é de responsabilidade do substituidor de páginas, um componente do módulo de gerenciamento de memória.
+
+
+\subsubsection*{Descrição do Projeto}
+
+O componente de substituição de páginas do Nanvix adota um política local \textit{first-in-first-out}. Isto é, quando uma falta de página ocorre, o sistema operacional escolhe, dentro das páginas residentes em memória do processo que falhou, a página mais antiga para ser substituída. Essa política tem como principais vantagens a simplicidade na implementação e \textit{overhead} mínimo na operação de substituição em si.
+
+No entanto, essa política impõe sérios problemas de desempenho ao sistema, principalmente se processos possuírem uma padrão de acesso aos dados -- o que geralmente é verdade. Por exemplo, suponha um programa que efetue a multiplicação de duas matrizes grandes, que não cabem na memória. Nesse caso, manter em memória as paginas novas certamente não é a escolha mais sábia, mas sim manter as páginas que representem o conjunto de trabalho do processo, que são as linha e colunas das matrizes operando e partes da matriz resultado.
+
+Para resolver esse problema, você deverá modificar o algoritmo de substituição de páginas do Nanvix e implementar qualquer outra política que conduza a melhores desempenhos. Você deverá avaliar o desempenho da sua solução quantitativamente. Para isso, você pode utilizar um código exemplo que efetua a multiplicação de matrizes. Tenha em mente que algoritmos robustos, como conjunto de trabalho e \textit{aging}, podem conduzir a bons resultados.
+
+\subsubsection*{Por Onde Começar?}
+
+O código do gerenciador de processos do Nanvix está no diretório \texttt{kernel/mm}, dividido em vários arquivos:
+
+\begin{itemize}
+    \item \texttt{mm.c}: inicialização do gerenciador de memória.
+    \item \texttt{paging.c}: sistema de paginação e \textit{swapping}.
+    \item \texttt{region.c}: gerenciamento de regiões.
+\end{itemize}
+
+Nesse projeto, você deve se atentar ao arquivo \texttt{paging.c}, principalmente na função \texttt{allocf()}, que implementa a função de substituição de páginas. Além disso, desses arquivos, você também usar o exemplo de multiplicação de matrizes em \texttt{src/sbin/test/test.c}.
+\subsubsection*{Indo Além}
+
+Caso você queria implementar uma política de substituição de páginas mais robusta, é interessante você estudar a \texttt{pfault()}, que lida com faltas de página. Uma ideia é modificá-la para manter o registro de faltas de página e então, tomar decisões mais interessantes.
+
+Você será recompensado pelo seu esforço. Procure o professor da disciplina para discutir o assunto em maiores detalhes. Além disso, o grupo que possuir a implementação mais robusta será convidado a submeter um \textit{pull} no repositório de desenvolvimento do Nanvix.
+
+\end{document}

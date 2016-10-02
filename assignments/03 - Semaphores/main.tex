@@ -1,0 +1,119 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+
+\usepackage[parfill]{parskip}
+
+% Identação de blocos.
+\usepackage{scrextend}
+
+% URLs.
+\usepackage[hidelinks,colorlinks=true,urlcolor=blue]{hyperref}
+
+\title{Semáforos}
+
+\author{Pedro H. Penna, João Caram e Henrique C. Freitas\\[0.3em]
+\small Pontifícia Universidade Católica de Minas Gerais}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\noindent Mecanismos de sincronização inter-processos possibilitam que processos acessem recursos compartilhados de maneira segura. Nesse projeto você implementará a abstração de semáforos no \textit{kernel}.
+
+\end{abstract}
+
+\subsubsection*{Fundamentação Teórica}
+
+Um semáforo é uma primitiva de sincronização inter-processos proposta por Edsger Dijkstra em 1965. Nesse mecanismo, uma variável especial protegida, do tipo abstrato semáforo, possibilita o acesso exclusivo a recursos compartilhados por meio de quatro operações básicas:
+
+\begin{itemize}
+	\item \texttt{create(n)}: cria um semáforo semáforo e o inicializa com o valor \texttt{n}.
+	\item \texttt{down()}: testa o valor do semáforo. Se esse valor for maior que zero, ele é decrementado e o processo continua sua execução normalmente. Caso contrário, o processo é bloqueado.
+	\item \texttt{up()}: testa se o valor do semáforo é zero. Em caso afirmativo e existir algum processo bloqueado no semáforo, o processo é desbloqueado. Caso contrário o valor do semáforo é incrementado.
+	\item \texttt{destroy()}: destrói o semáforo.
+\end{itemize}
+
+As operações \texttt{down()} e \texttt{up()} são atômicas, isto é, enquanto um processo executa uma dessas operações, nenhum outro pode executar outra operação sobre o mesmo semáforo. Assim, o acesso exclusivo a um recurso compartilhado é garantido.
+
+\subsubsection*{Descrição do Projeto}
+
+O Nanvix não oferece nenhuma primitiva de sincronização inter-processos. Processos podem manipular regiões de memória compartilhada e arquivos, mas sem a garantia de que não irão atrapalhar a computação de outros processos que acessam os mesmos recursos compartilhados.
+
+Para resolver esse problema, você deverá implementar abstração de semáforos em \textit{kernel}. Essas operações devem ser exportadas como chamadas de sistema e devem seguir as seguintes especificações.
+
+\texttt{int semget(unsigned key)}
+
+	\begin{addmargin}[2em]{0em}
+
+	A função \texttt{semget} permite que um processo use um semáforo associado a uma chave (\texttt{key}).
+	Caso nenhum semáforo esteja associado a \texttt{key}, um novo semáforo deve ser criado.
+
+	Em caso de conclusão com êxito, a função deve retornar o identificador do semáforo associado a \texttt{key}.
+	Em caso de erro, -1 deve ser retornado.
+	
+	\end{addmargin}
+
+\texttt{int semctl(int semid, int cmd, int val);}
+
+	\begin{addmargin}[2em]{0em}
+
+	A função \texttt{semctl()} permite um série de operações de controle no semáforo identificado por \texttt{semid}.
+	Essas operações são especificadas por \texttt{cmd} e podem ser:
+	\texttt{GETVAL}, retorna o valor corrente do semáforo;
+	\texttt{SETVAL}, define o valor do semáforo como sendo \texttt{val}; e
+	\texttt{IPC\_RMID}, desvincula o semáforo do processo corrente e o destrói caso não esteja mais sendo usado.
+
+	O valor de retorno da função depende de \texttt{cmd}. 
+	Caso esse seja \texttt{GETVAL}, o valor corrente do semáforo é retornado.
+	Nos demais casos de conclusão com êxito, 0 deve ser retornado.
+	Em caso de erro -1 deve ser retornado retornado.
+
+	\end{addmargin}
+	
+\texttt{int semop(int semid, int op);}
+
+	\begin{addmargin}[2em]{0em}
+
+	A função \texttt{semop} permite operações atômicas de incremento/decremento no semáforo identificado por \texttt{semid}.	
+	Um valor negativo para \texttt{op} especifica um operação \texttt{down()} e um valor positivo uma operação \texttt{up()}.
+	
+	A função deve retornar 0 em uma conclusão com êxito, ou então -1 em caso de erro.
+	
+	\end{addmargin}
+	
+Junto com o projeto você deverá entregar uma pequena descrição sobre a solução implementada. Programas-exemplo serão fornecidos para que você teste sua implementação.
+
+\subsubsection*{Por Onde Começar?}
+
+Nesse projeto os seguintes arquivos serão relevantes:
+
+\begin{itemize}
+    \item \texttt{include/nanvix/syscall.h}: IDs das chamadas de sistema.
+    \item \texttt{kernel/pm/sleep.c}: implementação das funções \texttt{sleep()} e \texttt{wakeup()}.
+    \item \texttt{kernel/sys/syscalls.c}: tabela de chamadas de sistema.
+    \item \texttt{include/sys/sem.h}: interface de usuário para manipulação de semáforos.
+    \item \texttt{lib/libc/sys/sem/semget.c}: função de biblioteca \texttt{semget()}.
+    \item \texttt{lib/libc/sys/sem/semctl.c}: função de biblioteca \texttt{semctl()}.
+    \item \texttt{lib/libc/sys/sem/semop.c}: função de biblioteca \texttt{semop()}.
+\end{itemize}
+
+No entanto, você também deverá criar alguns outros arquivos:
+
+\begin{itemize}
+    \item \texttt{kernel/sys/sem.c}: implementação da abstração de semáforos.
+    \item \texttt{kernel/sys/sem/semget.c}: chamada de sistema \texttt{sys\_semget()}.
+    \item \texttt{kernel/sys/sem/semctl.c}: chamada de sistema \texttt{sys\_semctl()}.
+    \item \texttt{kernel/sys/sem/semop.c}: chamada de sistema \texttt{sys\_semop()}.
+\end{itemize}
+
+\subsubsection*{Indo Além}
+
+especificações para manipulação de semáforos nesse projeto consistem em uma simplificação da versão estabelecida pelo padrão Posix, disponível em \url{pubs.opengroup.org/stage7tc1/basedefs/sys\_sem.h.html} 
+
+Caso você deseje implementar uma interface mais robusta, que esteja mais conforme o Posix, você será recompensado pelo seu esforço. Procure o professor da disciplina para discutir o assunto em maiores detalhes. Além disso, o grupo que possuir a implementação mais robusta será convidado a submeter um \textit{pull} no repositório de desenvolvimento do Nanvix.
+
+\end{document}

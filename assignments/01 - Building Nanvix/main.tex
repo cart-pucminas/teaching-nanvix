@@ -1,0 +1,55 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+
+\usepackage[parfill]{parskip}
+
+\title{Compilando e Testando o Nanvix}
+
+\author{Pedro H. Penna, João Caram e Henrique C. Freitas\\[0.3em]
+\small Pontifícia Universidade Católica de Minas Gerais}
+\date{}
+
+\hyphenation{tool-chain}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent Antes de começar a \textit{hackear} o Nanvix, é fundamental que você se familiarize com o modo como os arquivos do projeto estão organizados, com quais ferramentas de desenvolvimento você vai lidar e com o processo de compilação. Nesse primeiro projeto, você vai trabalhar em todas essas tarefas e, ao final, estará pronto para começar o trabalho duro.
+\end{abstract}
+
+\subsubsection*{A Estrutura do Projeto}
+
+Por tratar-se de um projeto ligeiramente grande e complexo, o Nanvix é organizado em uma hierarquia de diretórios, que é detalhada a seguir:
+
+\begin{itemize}
+    \item \texttt{bin} conterá o binário do \textit{kernel} e utilitários, depois de terem sido compilados.
+    \item \texttt{doc} contém toda a documentação do Nanvix, que inclui manuais do sistema, de bibliotecas e utilitários; orientações gerais para desenvolvimento; e documentação de APIs.
+    \item \texttt{doxygen} contém arquivos de configuração da ferramenta Doxygen, que gera documentação das APIs do Nanvix diretamente do código fonte.
+    \item \texttt{include} contém os arquivos-cabeçalhos de escopo global, tanto de sistema quanto de biblioteca.
+    \item \texttt{lib} conterá todas as bibliotecas estáticas e dinâmicas, depois de terem sido compiladas.
+    \item \texttt{src} contém o código fonte do Nanvix.
+    \item \texttt{tools} contém todas as ferramentas e \textit{scripts} necessários para compilar o Nanvix.
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Ferramentas e Ambiente de Desenvolvimento}
+
+As ferramentas utilizadas no desenvolvimento do Nanvix, como no desenvolvimento de qualquer outro sistema operacional, se diferem das utilizadas no desenvolvimento da maioria dos outros tipos de software.
+
+Em primeiro lugar, as ferramentas de compilação devem ser compatíveis com a plataforma alvo. Por exemplo, o Nanvix foi projetado para a plataforma x86, portanto as ferramentas utilizadas para compilar o sistema devem ser capazes de gerar código de máquina para essa plataforma. Em segundo lugar, quando trabalha-se em nível de \textit{kernel}, o ambiente de desenvolvimento não provê quaisquer tipo de bibliotecas padrões. Em terceiro lugar, para testar o sistema deve-se utilizar uma máquina dedicada, seja ela real ou virtual. Finalmente, em quarto lugar, as ferramentas de \textit{debugging} disponíveis são restritas, mas extremamente poderosas.
+
+Para o desenvolvimento do Nanvix, você utilizará duas ferramentas: a \textit{toolchain} GCC-x86, uma coletânea de utilitários que inclui compilador, \textit{assembler} e \textit{linker}; e o Bochs, um emulador para plataforma x86 que possui um poderoso \textit{debugger} embutido. Para instalar essas ferramentas de forma automática, execute\footnote{\label{note1}Talvez você precise de uma autenticação privilegiada para executar essa ação.}, do diretório raiz do projeto, os \textit{scripts} \texttt{setup-bochs.sh} e \texttt{setup-toolchain.sh}, ambos localizados no diretório \texttt{tools/dev}.
+
+\subsubsection*{Compilando e Testando}
+
+Uma vez que as ferramentas de desenvolvimento necessárias para compilar o Nanvix foram devidamente instaladas, compilar o sistema torna-se uma tarefa simples. Do diretório raiz do projeto, invoque o utilitário \texttt{make} com o argumento \texttt{nanvix}. Terminado esse processo, todos os binários devem ter sido criados com sucesso.
+
+Agora, para gerar uma imagem do sistema, re-invoque\textsuperscript{\ref{note1}} o utilitário \texttt{make} do diretório raiz, mas dessa vez com o argumento \texttt{image}. Isso fará com que o arquivo \texttt{nanvix.img} seja criado no diretório raiz. Esse arquivo é a imagem do sistema e será usado no processo de \textit{boot}, a seguir.
+
+Finalmente, inicie o Nanvix no Bochs, dando \textit{boot} pela imagem de sistema gerada. Para fazer isso de forma automática, execute\textsuperscript{\ref{note1}}, a partir do diretório raiz, o \textit{script} \texttt{run.sh} localizado no diretório \texttt{tools/run}.
+
+\end{document}
