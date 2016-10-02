@@ -1,0 +1,6 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
+\beamer@sectionintoc {2}{The Nanvix Operating System}{10}{0}{2}
+\beamer@sectionintoc {3}{Baby Steps}{14}{0}{3}
+\beamer@sectionintoc {4}{The Nanvix Kernel}{21}{0}{4}
+\beamer@sectionintoc {5}{Perspectives}{33}{0}{5}
