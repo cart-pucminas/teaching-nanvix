@@ -1,37 +1,115 @@
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[brazilian]{babel}
+
+\newif\ifbr
+\newif\ifen
+
+% Output Language
+%\brtrue \usepackage[brazilian]{babel}
+\entrue \usepackage[english]{babel}
 
 
 \usepackage[parfill]{parskip}
 
+\ifbr
 \title{Substituição de Páginas}
-
-\author{Pedro H. Penna, João Caram e Henrique C. Freitas\\[0.3em]
-\small Pontifícia Universidade Católica de Minas Gerais}
+\author{
+	Pedro H. Penna, Henrique Freitas,\\%
+	Márcio Castro and Jean-François Méhaut\\[0.3em]
+	\small Pontifical Catholic University of Minas Gerais\\
+	\small Federal University of Santa Catarina\\
+	\small University of Grenoble Aples}
 \date{}
+\else\ifen
+\title{Page Replacement}
+\author{
+	Pedro H. Penna, Henrique Freitas,\\%
+	Márcio Castro and Jean-François Méhaut\\[0.3em]
+	\small Pontifical Catholic University of Minas Gerais\\
+	\small Federal University of Santa Catarina\\
+	\small University of Grenoble Aples}
+\date{}
+\fi\fi
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-
-\noindent A memória de um computador é organizada em uma hierarquia, com o sistema operacional atuando como gerente. Nessa organização, uma função fundamental é a de manter páginas utilizadas em memória e descarregar as não necessárias em disco. No Nanvix, essa tarefa é de responsabilidade do substituidor de páginas e nesse projeto você deverá propor melhorias a ele.
-
+\ifbr
+	\noindent A memória de um computador é organizada em uma hierarquia,
+	com o sistema operacional atuando como gerente. Nessa organização,
+	uma função fundamental é a de manter páginas utilizadas em memória e
+	descarregar as não necessárias em disco. No Nanvix, essa tarefa é de
+	responsabilidade do substituidor de páginas e nesse projeto você
+	deverá propor melhorias a ele.
+\else\ifen
+	\noindent The memory of a computer is hierarchically organized, with
+	the operating system acting as a manager. In this approach, a core
+	functionality is to maintain in memory the most used pages, and
+	offload to the disk those that are not used. In nanvix, this job is
+	accomplished by the page replacement component, and in this
+	assignment you should propose enhancements in it.
+\fi\fi
 \end{abstract}
 
-\subsubsection*{Fundamentação Teórica}
+\ifbr
+	\subsubsection*{Fundamentação Teórica}
 
-Para proporcionar a ilusão de um computador com memória infinitamente grande, rápida e não volátil, a memória de um computador é organizada em uma hierarquia, com memórias pequenas, voláteis e de acesso rápido nos primeiros níveis, e memórias lentas, densas e não voláteis nos últimos.
+		Para proporcionar a ilusão de um computador com memória
+		infinitamente grande, rápida e não volátil, a memória de um
+		computador é organizada em uma hierarquia, com memórias
+		pequenas, voláteis e de acesso rápido nos primeiros níveis, e
+		memórias lentas, densas e não voláteis nos últimos.
 
-Nessa hierarquia, o papel do sistema operacional é o de realizar a gerência de maneira eficiente e transparente ao programador. Então, para alcançar esse objetivo, sistemas operacionais modernos, recorrem a uma técnica híbrida de \textit{hardware} e \textit{software}, denominada memória virtual.
+		Nessa hierarquia, o papel do sistema operacional é o de realizar
+		a gerência de maneira eficiente e transparente ao programador.
+		Então, para alcançar esse objetivo, sistemas operacionais
+		modernos, recorrem a uma técnica híbrida de \textit{hardware} e
+		\textit{software}, denominada memória virtual.
 
-Nessa técnica, o espaço de endereçamento de um processo é dividido em regiões de mesmo tamanho, denominadas páginas, que, por sua vez, são mapeados em regiões de tamanho correspondente na memória física, denominadas quadros de página. Assim, um conjunto de processos pode compartilhar a memória física, mesmo que não caibam integralmente nela.
+		Nessa técnica, o espaço de endereçamento de um processo é
+		dividido em regiões de mesmo tamanho, denominadas páginas, que,
+		por sua vez, são mapeados em regiões de tamanho correspondente
+		na memória física, denominadas quadros de página. Assim, um
+		conjunto de processos pode compartilhar a memória física, mesmo
+		que não caibam integralmente nela.
 
-Para tanto, tudo o que o sistema operacional deve fazer é manter as páginas mais utilizadas na memória, armazenando em disco aquelas que não são mais necessárias. Essa gerência exerce influência direta no desempenho final do sistema e é de responsabilidade do substituidor de páginas, um componente do módulo de gerenciamento de memória.
+		Para tanto, tudo o que o sistema operacional deve fazer é manter
+		as páginas mais utilizadas na memória, armazenando em disco
+		aquelas que não são mais necessárias. Essa gerência exerce
+		influência direta no desempenho final do sistema e é de
+		responsabilidade do substituidor de páginas, um componente do
+		módulo de gerenciamento de memória.
+\elseifen
+	\subsubsection*{Background}
 
+		To enable the illusion of a computer with a infinitely large,
+		fast and non-volatile memory, the memory of computer is
+		hierarchically organized. In this approach, fast and small memories
+		are placed near the processor, whereas large and slow memories
+		are farther.
 
+		In the memory hierarchy, the job of the operating system is to
+		act of a manager, in a efficient and transparent way. To do so,
+		modern operating systems rely on a hybrid hardware/software
+		technique called virtual memory.
+
+		In this technique, the address space of a process is divided in
+		equal-size regions, named pages. In turn, pages are mapped to
+		regions of the same size in the physical memory, which are
+		referred as page frames. This way, a set of process can share
+		the physical memory, even though all of them may not fit in at
+		the same time.
+
+		To maintain such illusion based on pages and page frames, all
+		that the operating system does is to maintain in memory those
+		pages that are more frequently used, and offload to disk those
+		that are no logger. This bookkeeping has a great influence in
+		the overall performance of the system, and it is carried out by
+		the page replacement component, a module of the memory
+		management subsystem.
+\fi\fi
 \subsubsection*{Descrição do Projeto}
 
 O componente de substituição de páginas do Nanvix adota um política local \textit{first-in-first-out}. Isto é, quando uma falta de página ocorre, o sistema operacional escolhe, dentro das páginas residentes em memória do processo que falhou, a página mais antiga para ser substituída. Essa política tem como principais vantagens a simplicidade na implementação e \textit{overhead} mínimo na operação de substituição em si.
