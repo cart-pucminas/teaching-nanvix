@@ -81,7 +81,7 @@
 		influência direta no desempenho final do sistema e é de
 		responsabilidade do substituidor de páginas, um componente do
 		módulo de gerenciamento de memória.
-\elseifen
+\else\ifen
 	\subsubsection*{Background}
 
 		To enable the illusion of a computer with a infinitely large,
@@ -110,29 +110,113 @@
 		the page replacement component, a module of the memory
 		management subsystem.
 \fi\fi
-\subsubsection*{Descrição do Projeto}
+\ifbr
+	\subsubsection*{Descrição do Projeto}
 
-O componente de substituição de páginas do Nanvix adota um política local \textit{first-in-first-out}. Isto é, quando uma falta de página ocorre, o sistema operacional escolhe, dentro das páginas residentes em memória do processo que falhou, a página mais antiga para ser substituída. Essa política tem como principais vantagens a simplicidade na implementação e \textit{overhead} mínimo na operação de substituição em si.
+		O componente de substituição de páginas do Nanvix adota um
+		política local \textit{first-in-first-out}. Isto é, quando uma
+		falta de página ocorre, o sistema operacional escolhe, dentro
+		das páginas residentes em memória do processo que falhou, a
+		página mais antiga para ser substituída. Essa política tem como
+		principais vantagens a simplicidade na implementação e
+		\textit{overhead} mínimo na operação de substituição em si.
 
-No entanto, essa política impõe sérios problemas de desempenho ao sistema, principalmente se processos possuírem uma padrão de acesso aos dados -- o que geralmente é verdade. Por exemplo, suponha um programa que efetue a multiplicação de duas matrizes grandes, que não cabem na memória. Nesse caso, manter em memória as paginas novas certamente não é a escolha mais sábia, mas sim manter as páginas que representem o conjunto de trabalho do processo, que são as linha e colunas das matrizes operando e partes da matriz resultado.
+		No entanto, essa política impõe sérios problemas de desempenho
+		ao sistema, principalmente se processos possuírem uma padrão de
+		acesso aos dados -- o que geralmente é verdade. Por exemplo,
+		suponha um programa que efetue a multiplicação de duas matrizes
+		grandes, que não cabem na memória. Nesse caso, manter em memória
+		as paginas novas certamente não é a escolha mais sábia, mas sim
+		manter as páginas que representem o conjunto de trabalho do
+		processo, que são as linha e colunas das matrizes operando e
+		partes da matriz resultado.
 
-Para resolver esse problema, você deverá modificar o algoritmo de substituição de páginas do Nanvix e implementar qualquer outra política que conduza a melhores desempenhos. Você deverá avaliar o desempenho da sua solução quantitativamente. Para isso, você pode utilizar um código exemplo que efetua a multiplicação de matrizes. Tenha em mente que algoritmos robustos, como conjunto de trabalho e \textit{aging}, podem conduzir a bons resultados.
+		Para resolver esse problema, você deverá modificar o algoritmo
+		de substituição de páginas do Nanvix e implementar qualquer
+		outra política que conduza a melhores desempenhos. Você deverá
+		avaliar o desempenho da sua solução quantitativamente. Para
+		isso, você pode utilizar um código exemplo que efetua a
+		multiplicação de matrizes.  Tenha em mente que algoritmos
+		robustos, como conjunto de trabalho e \textit{aging}, podem
+		conduzir a bons resultados.
+\else\ifen
+	\subsubsection*{Assignment Description}
 
-\subsubsection*{Por Onde Começar?}
+		The page replacement component in Nanvix relies on a
+		first-in-first-out local page replacement policy. That is,
+		whenever a page fault occurs, the operating system chooses,
+		among the in-core pages of the faulting process, the oldest page
+		to be evicted. This policy has is easy to implement and yields
+		to minimum overhead. However, it leads to a poor performance,
+		specially those process that present a well-behaved data access
+		pattern -- which is usually true.
 
-O código do gerenciador de processos do Nanvix está no diretório \texttt{kernel/mm}, dividido em vários arquivos:
+		For instance, suppose program that performs a matrix multiplication of two
+		matrices that do not fit in memory. In this situation, the
+		wisest choice is not to keep in memory the most recently used
+		pages, but to maintain in-core those that represent the working
+		set of the program, which are the pages that store current lines
+		and columns that are being multiplied.
 
-\begin{itemize}
-    \item \texttt{mm.c}: inicialização do gerenciador de memória.
-    \item \texttt{paging.c}: sistema de paginação e \textit{swapping}.
-    \item \texttt{region.c}: gerenciamento de regiões.
-\end{itemize}
+		To address this problem, you have to hack the page replacement
+		algorithm in Nanvix and implement any other policy that yields
+		to a better performance. You have to present a quantitative
+		performance analysis of your solution. For doing so, you may use
+		the matrix multiplication program that we have provided along
+		with the system. Keep in mind that robust algorithms like the
+		Working Set and Aging may yield to good results.
 
-Nesse projeto, você deve se atentar ao arquivo \texttt{paging.c}, principalmente na função \texttt{allocf()}, que implementa a função de substituição de páginas. Além disso, desses arquivos, você também usar o exemplo de multiplicação de matrizes em \texttt{src/sbin/test/test.c}.
-\subsubsection*{Indo Além}
+\fi\fi
 
-Caso você queria implementar uma política de substituição de páginas mais robusta, é interessante você estudar a \texttt{pfault()}, que lida com faltas de página. Uma ideia é modificá-la para manter o registro de faltas de página e então, tomar decisões mais interessantes.
+\ifbr
+	\subsubsection*{Por Onde Começar?}
 
-Você será recompensado pelo seu esforço. Procure o professor da disciplina para discutir o assunto em maiores detalhes. Além disso, o grupo que possuir a implementação mais robusta será convidado a submeter um \textit{pull} no repositório de desenvolvimento do Nanvix.
+		O código do subsistema de memória do Nanvix está no diretório
+		\texttt{kernel/mm}, dividido em vários arquivos:
+		%
+		\begin{itemize}
+			\item \texttt{mm.c}: inicialização do gerenciador de memória.
+			\item \texttt{paging.c}: sistema de paginação e \textit{swapping}.
+			\item \texttt{region.c}: gerenciamento de regiões.
+		\end{itemize}
+
+	Nesse projeto, você deve se atentar ao arquivo \texttt{paging.c},
+	principalmente na função \texttt{allocf()}, que implementa a função
+	de substituição de páginas. Além disso, desses arquivos, você também
+	usar o exemplo de multiplicação de matrizes em
+	\texttt{src/sbin/test/test.c}.
+
+	\subsubsection*{Indo Além}
+
+		Caso você queria implementar uma política de substituição de
+		páginas mais robusta, é interessante você estudar a
+		\texttt{pfault()}, que lida com faltas de página. Uma ideia é
+		modificá-la para manter o registro de faltas de página e então,
+		tomar decisões mais interessantes.
+
+		Você será recompensado pelo seu esforço. Procure o professor da
+		disciplina para discutir o assunto em maiores detalhes. Além
+		disso, o grupo que possuir a implementação mais robusta será
+		convidado a submeter um \textit{pull} no repositório de
+		desenvolvimento do Nanvix.
+
+\else\ifen
+	\subsubsection*{Start Point}
+
+		The implementation of the memory management subsystem is in the
+		\texttt{kernel/mm} directory, and it is split in several files:
+		%
+		\begin{itemize}
+			\item \texttt{mm.c}: inicialização do gerenciador de memória.
+			\item \texttt{paging.c}: sistema de paginação e \textit{swapping}.
+			\item \texttt{region.c}: gerenciamento de regiões.
+		\end{itemize}
+		
+		In this assignment, you should focus on the \texttt{paging.c}
+		source file. More precisely, in the \texttt{allocf()} kernel
+		function, which implements the paging replacement algorithm.
+		Besides this, the source file for the matrix multiplication
+		algorithm is located in \texttt{src/sbin/test/test.c}
+\fi\fi
 
 \end{document}
