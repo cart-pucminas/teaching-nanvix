@@ -1,16 +1,34 @@
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[brazilian]{babel}
 
+\newif\ifbr
+\newif\ifen
+
+% Output Language
+%\brtrue \usepackage[brazilian]{babel}
+\entrue \usepackage[english]{babel}
 
 \usepackage[parfill]{parskip}
 
-\title{\textit{Prefetching}}
-
-\author{Pedro H. Penna, João Caram e Henrique C. Freitas\\[0.3em]
-\small Pontifícia Universidade Católica de Minas Gerais}
+\ifbr
+\title{Prefetching}
+\author{
+	Pedro H. Penna, Henrique Freitas,\\%
+	Márcio Castro and Jean-François Méhaut\\[0.3em]
+	\small Pontifical Catholic University of Minas Gerais\\
+	\small Federal University of Santa Catarina\\
+	\small University of Grenoble Aples}
 \date{}
-
+\else\ifen
+\title{Prefetching}
+\author{
+	Pedro H. Penna, Henrique Freitas,\\%
+	Márcio Castro and Jean-François Méhaut\\[0.3em]
+	\small Pontifical Catholic University of Minas Gerais\\
+	\small Federal University of Santa Catarina\\
+	\small University of Grenoble Aples}
+\date{}
+\fi\fi
 
 \begin{document}
 
@@ -18,32 +36,179 @@
 
 \begin{abstract}
 
-\noindent O subsistema de E/S deve prover ao usuário acesso eficiente aos dispositivos de E/S. Se isso não ocorrer, o usuário certamente ficará frustrado com a sua experiência virtual. Nesse projeto você implementará uma técnica que significativamente potencializa o desempenho de dispositivos de armazenamento em massa, o \textit{prefetching}.
+\ifbr
+	\noindent O subsistema de E/S deve prover ao usuário acesso
+	eficiente aos dispositivos de E/S. Se isso não ocorrer, o usuário
+	certamente ficará frustrado com a sua experiência virtual. Nesse
+	projeto você implementará uma técnica que significativamente
+	potencializa o desempenho de dispositivos de armazenamento em massa,
+	o \textit{prefetching}.
+\else\ifen
+	\noindent The I/O subsystem should provide to the user efficient
+	access to I/O devices. If it does not, the user will certainly
+	become frustrated with his/her virtual experience. In this
+	assignment you should implement a powerful technique that boosts the
+	performance of storage devices: disk block prefetching.
+\fi\fi
+
 
 \end{abstract}
 
-\subsubsection*{Fundamentação Teórica}
+\ifbr
+	\subsubsection*{Fundamentação Teórica}
 
-Dentre os diferentes dispositivos de E/S existentes, podemos citar discos magnéticos como fundamentais, por servirem como principal local para persistência de dados de usuários e ao próprio sistema operacional como meio para possibilitar a técnica de memória virtual.
+		Dentre os diferentes dispositivos de E/S existentes, podemos
+		citar discos magnéticos como fundamentais, por servirem como
+		principal local para persistência de dados de usuários e ao
+		próprio sistema operacional como meio para possibilitar a
+		técnica de memória virtual.
 
-No entanto, esses dispositivos possuem o inconveniente de apresentarem baixas taxas de leitura e escrita, tornando operações lentas. Por exemplo, uma única requisição de leitura pode levar até 30 ms, em contraste a 0.1 ms para a mesma operação em memória. O principal motivo disso, se deve ao fato de discos magnéticos serem dispositivos escensialmente mecânicos.
+		No entanto, esses dispositivos possuem o inconveniente de
+		apresentarem baixas taxas de leitura e escrita, tornando
+		operações lentas. Por exemplo, uma única requisição de leitura
+		pode levar até 30 ms, em contraste a 0.1 ms para a mesma
+		operação em memória. O principal motivo disso, se deve ao fato
+		de discos magnéticos serem dispositivos escensialmente
+		mecânicos.
 
-Por isso, para minimizar os efeitos negativos de desempenho, técnicas, tais como agendamento de requisições, \textit{caching} e \textit{prefetching}, são usualmente aplicadas. Na técnica de agendamento, requisições de disco são agendadas de forma a minimizar o tempo de movimentação do braço mecânico do disco magnético. Na técnica de \textit{caching}, blocos mais usados do disco são mantidos em uma \textit{cache} em memória, de forma que requisições podem ser satisfeitas mais prontamente. Por fim, na técnica de \textit{prefetching}, dados são lidos antecipadamente do disco para a \textit{cache} do disco em memória, assim requisições de leitura podem também serem satisfeitas mais rapidamente.
+		Por isso, para minimizar os efeitos negativos de desempenho,
+		técnicas, tais como agendamento de requisições, \textit{caching}
+		e \textit{prefetching}, são usualmente aplicadas. Na técnica de
+		agendamento, requisições de disco são agendadas de forma a
+		minimizar o tempo de movimentação do braço mecânico do disco
+		magnético. Na técnica de \textit{caching}, blocos mais usados do
+		disco são mantidos em uma \textit{cache} em memória, de forma
+		que requisições podem ser satisfeitas mais prontamente. Por fim,
+		na técnica de \textit{prefetching}, dados são lidos
+		antecipadamente do disco para a \textit{cache} do disco em
+		memória, assim requisições de leitura podem também serem
+		satisfeitas mais rapidamente.
 
-\subsubsection*{Descrição do Projeto}
+\else\ifen
+	\subsubsection*{Background}
 
-O subsistema de E/S do Nanvix adota a técnica de \textit{caching} para maximizar seu desempenho. Requisições entre processos de usuário e dispositivos de saída são atendidas diretamente de \textit{buffers} de blocos, em memória. O gerenciador de E/S mantém \textit{buffers} em uma \textit{cache} e utiliza um esquema LRU (\textit{least recently used}) para fazer a substituição de \textit{buffers} antigos por \textit{buffers} novos, quando necessário.
+		Among the several existing I/O devices, one can point out
+		storage devices as one of the most important. They provide a
+		place in which the user can persist some data and the operating
+		system may use to implement virtual memory.
 
-Apesar de simples, essa técnica confere um bom desempenho ao subsistema de E/S, tanto em requisições de leitura quanto de escrita. Para requisições de escrita especificamente, o uso de \textit{buffers} possibilita \textit{dealyed write}, reduzindo a banda média de transferência -- \textit{buffers} serão utilizados ao máximo antes de serem escritos de volta em disco. Para requisições de leitura e escrita, o uso da \textit{cache} possibilita que requisições sejam atendidas mais prontamente.
+		However, these devices have the drawback of presenting slow
+		read/write ratios, thereby yielding to poor performance. For
+		instance, a single read request may take up to 30 ms, in
+		contrast to 1 ms for the same request in memory. The rationale
+		behind this comes from the fact that storage devices are
+		essentially mechanical devices.
 
-Ainda assim, o desempenho do subsistema de E/S do Nanvix ser melhorado ainda mais. Por exemplo, imagine um processo que realiza acesso sequencial a um arquivo, como um mp3 \textit{player}. Quando apenas a técnica de \textit{caching} é usada, toda vez que uma requisição de leitura de um novo bloco for feita, uma falta na \textit{cache} será gerada e o bloco deverá ser carregado diretamente do disco. Alternativamente, a técnica de \textit{prefetching} pode ser adotada para que blocos seguintes sejam carregados antecipadamente, aumentando a taxa de acertos na \textit{cache}. Assim, seu trabalho se resume a implementar essa funcionalidade no Nanvix.
+		For this reason, and to address performance issues, techniques
+		such as request scheduling, disk block caching and disk block
+		prefetching are frequently employed. In the first technique,
+		read/write requests are scheduled so as to minimize the
+		repositioning time of the disk arm/head. In the second
+		technique, most used blocks are kept in a in-core memory, so
+		that requests on these blocks can be served faster. Finally, in
+		the third technique data is read in advance to the in-core disk
+		block buffer, thereby speeding up linear read requests.
 
-\subsubsection*{Por Onde Começar?}
+\fi\fi
 
-O código do gerenciador de E/S do Nanvix está no diretório \texttt{kernel/fs}, dividido em vários arquivos. No entanto, nesse projeto, você deve se atentar ao arquivo \texttt{buffer.c}, onde todas as funções para o gerenciamento da \textit{cache} de \textit{buffers} estão implementados. Em especial, estude a funação \texttt{bread()}, que realiza a leitura de um \textit{buffer} de bloco. Uma boa ideia seria utilizar essa função para criar a nova funcionalidade de \textit{prefetching}. Para testar sua estratégia de \textit{prefetching} use o utilitario \texttt{test}.
+\ifbr
+	\subsubsection*{Descrição do Projeto}
 
-\subsubsection*{Recompensas}
+		O subsistema de E/S do Nanvix adota a técnica de
+		\textit{caching} para maximizar seu desempenho. Requisições
+		entre processos de usuário e dispositivos de saída são atendidas
+		diretamente de \textit{buffers} de blocos, em memória. O
+		gerenciador de E/S mantém \textit{buffers} em uma \textit{cache}
+		e utiliza um esquema LRU (\textit{least recently used}) para
+		fazer a substituição de \textit{buffers} antigos por
+		\textit{buffers} novos, quando necessário.
 
-O grupo que possuir a implementação mais robusta será convidado a submeter um \textit{pull} no repositório de desenvolvimento do Nanvix.
+		Apesar de simples, essa técnica confere um bom desempenho ao
+		subsistema de E/S, tanto em requisições de leitura quanto de
+		escrita. Para requisições de escrita especificamente, o uso de
+		\textit{buffers} possibilita \textit{dealyed write}, reduzindo a
+		banda média de transferência -- \textit{buffers} serão
+		utilizados ao máximo antes de serem escritos de volta em disco.
+		Para requisições de leitura e escrita, o uso da \textit{cache}
+		possibilita que requisições sejam atendidas mais prontamente.
+
+		Ainda assim, o desempenho do subsistema de E/S do Nanvix ser
+		melhorado ainda mais. Por exemplo, imagine um processo que
+		realiza acesso sequencial a um arquivo, como um mp3
+		\textit{player}. Quando apenas a técnica de \textit{caching} é
+		usada, toda vez que uma requisição de leitura de um novo bloco
+		for feita, uma falta na \textit{cache} será gerada e o bloco
+		deverá ser carregado diretamente do disco. Alternativamente,
+		a técnica de \textit{prefetching} pode ser adotada para que
+		blocos seguintes sejam carregados antecipadamente,
+		aumentando a taxa de acertos na \textit{cache}. Assim, seu
+		trabalho se resume a implementar essa funcionalidade no
+		Nanvix.
+
+\else\ifen
+	\subsubsection*{Assignment Description}
+
+		The I/O subsystem in Nanvix uses the caching technique to
+		speedup disk-use performance. Requests of user processes are
+		directly served from in-memory buffers which the kernels
+		maintains in a LRU (least recently used) in-core cache.
+
+		Although simple, this technique yields to a better overall
+		performance for the I/O subsystem in both, read and write
+		requests. More precisely, caching enables delayed write for
+		write requests and data reuse for read requests, thus maximizing
+		the average disk-bandwidth.
+		
+		Nevertheless, the overall performance of the I/O subsystem may
+		be further improved with prefetching. For instance, suppose a
+		scenario in which a process performs linear access to a file,
+		like a mp3 does. When only the caching technique is employed,
+		whenever a read request is issued, a cache miss will raise and
+		the request will have to be served from the disk. Alternatively,
+		with prefetching, next blocks in a linear read are loaded in
+		advance asynchronously, and thus increase cache hits. Therefore,
+		in this assignment you should implement the prefetching
+		technique in Nanvix.	
+
+\fi\fi
+
+\ifbr
+	\subsubsection*{Por Onde Começar?}
+
+		O código do gerenciador de E/S do Nanvix está no diretório
+		\texttt{kernel/fs}, dividido em vários arquivos. No entanto,
+		nesse projeto, você deve se atentar ao arquivo
+		\texttt{buffer.c}, onde todas as funções para o gerenciamento da
+		\textit{cache} de \textit{buffers} estão implementados. Em
+		especial, estude a funação \texttt{bread()}, que realiza a
+		leitura de um \textit{buffer} de bloco. Uma boa ideia seria
+		utilizar essa função para criar a nova funcionalidade de
+		\textit{prefetching}. Para testar sua estratégia de
+		\textit{prefetching} use o utilitario \texttt{test}.
+
+	\subsubsection*{Recompensas}
+
+		O grupo que possuir a implementação mais robusta será convidado
+		a submeter um \textit{pull} no repositório de desenvolvimento do
+		Nanvix.
+
+\else\ifen
+
+	\subsubsection*{Start Point}
+
+		The implementation of the I/O subsystem is in the
+		\texttt{kernel/fs} directory, and it is split in several files.
+		However in this assignment, you should focus on the
+		\texttt{buffer.c} file, where all the functions and routines for
+		disk-block buffer cache are implemented. More precisely, you
+		should study the \texttt{bread()} function, which serves read
+		requests from the cache. A good idea is to use rely on the
+		implementation of this function to implement a \texttt{breada()}
+		function which performs normal read followed by prefetched
+		reads. You should hack the \texttt{read()} system call to make
+		use of this new feature, and you should rely on the
+		\texttt{test} utility to benchmark your solution.
+
+\fi\fi
 
 \end{document}
