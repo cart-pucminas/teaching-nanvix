@@ -21,7 +21,7 @@
 
 % Figures
 \usepackage{graphicx}
-\graphicspath{{img/}}
+\graphicspath{{../../img/}}
 \usepackage{subcaption}
 
 % Tables
@@ -81,13 +81,14 @@
 	\framesubtitle{Barebones}
 		\begin{itemize}
 		\setlength\itemsep{1.5em}
-			\uncover<1->{
-				\item Process compete for processor time	
-			}
-			\uncover<2->{
-				\item Process scheduler chooses which process to run
-			}
+			\item Process compete for processor time	
+			\item Process scheduler chooses which process to run
 		\end{itemize}
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\linewidth]{states}	
+			\caption{Process states.}
+		\end{figure}
 	\end{frame}
 
 	\begin{frame}
@@ -156,7 +157,11 @@
 	\begin{frame}
 	\frametitle{Process Scheduling in Nanvix}
 	\framesubtitle{Process States}
-
+		\begin{figure}
+			\centering
+			\includegraphics[width=\linewidth]{nanvix-states}
+			\caption{States of a process in Nanvix.}
+		\end{figure}
 	\end{frame}
 
 	\begin{frame}
@@ -190,9 +195,9 @@
 				\item Support for priority scheduling (unused)
 				\begin{itemize}
 				\setlength\itemsep{0.5em}
-					\item Static priority
-					\item Dynamic priority
-					\item User priority
+					\item Static priority (\texttt{counter})
+					\item Dynamic priority (\texttt{dynamic})
+					\item User priority (\texttt{nice})
 				\end{itemize}
 			}
 		\end{itemize}
