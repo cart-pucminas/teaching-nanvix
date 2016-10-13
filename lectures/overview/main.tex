@@ -1,0 +1,256 @@
+\documentclass{beamer}
+
+% Frame Number
+\setbeamertemplate{footline}[frame number]
+
+% Input Encoding
+\usepackage[utf8]{inputenc}
+
+% PDF Bookmarks
+\usepackage{url}
+\usepackage{hyperref} 
+\hypersetup{colorlinks}
+\hypersetup{bookmarksopen}
+\hypersetup{bookmarksnumbered}
+\hypersetup{citecolor=blue}
+\hypersetup{urlcolor=blue}
+\hypersetup{linkcolor=blue}
+
+% Spacing
+\usepackage{xspace}
+
+% Figures
+\usepackage{graphicx}
+\graphicspath{{../../img/}}
+\usepackage{subcaption}
+
+% Tables
+\usepackage{booktabs}
+
+% Strike Through
+\usepackage{ulem}
+
+% Code Snippet 
+\usepackage{listings}
+\lstset{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  numbers=left,
+  stepnumber=2,
+  language=C,
+  tabsize=2,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{blue},
+  commentstyle=\itshape\color{gray},
+  identifierstyle=\bfseries\color{black},
+  stringstyle=\bfseries\color{purple},
+}
+
+% Title
+\title[Nanvix]{%
+	\textbf{%
+		The Nanvix Operating System\\
+		\small{Overview}
+	}
+}
+
+% Authors
+\author[Pedro H. Penna]{%
+	Pedro H. Penna%
+}
+
+% Affiliations
+\institute{
+	\url{pedrohenriquepenna@gmail.com}
+}
+
+% Short-Hands
+\newcommand{\ie}{\textit{ie.\xspace}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{The Nanvix Operating System}
+
+		\begin{frame}
+		\frametitle{The Nanvix Operating System}
+		\framesubtitle{Project Overview}
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Created from scratch for educational purposes
+				
+				\item Designed to be small, simple, modern and fully featured
+				
+				\item Publicly available under the GPL v3 license at:
+					\\[1em]
+					\begin{center}
+						\url{www.github.com/ppenna/nanvix}
+					\end{center}
+			\end{itemize}
+
+			\begin{figure}[t]
+				\captionsetup[subfigure]{
+					justification=centering,
+					labelformat=empty}
+				\centering
+					\begin{subfigure}{0.2\linewidth}
+						\includegraphics[width=\linewidth]{pedro}
+						\caption{\scriptsize{Pedro H. Penna\\UFSC}}
+					\end{subfigure}
+					\quad
+					\quad
+					\begin{subfigure}{0.2\linewidth}
+						\includegraphics[width=\linewidth]{davidson}
+						\caption{\scriptsize{Davidson Francis\\PUC Minas}}
+					\end{subfigure}
+					\quad
+					\quad
+					\begin{subfigure}{0.2\linewidth}
+						\includegraphics[width=\linewidth]{subhra}
+						\caption{\scriptsize{Subhra Sarkar\\EchoStar Corp.}}
+					\end{subfigure}
+				\caption{People involved in the Nanvix Project.}
+			\end{figure}
+		\end{frame}
+
+		\begin{frame}
+		\frametitle{The Nanvix Operating System}
+		\framesubtitle{Kernel Features}
+			\begin{itemize}
+			\setlength\itemsep{0.7em}
+				\item POSIX compliant system call interface
+				\item Unix System V architecture
+				\item Non-preemptive kernel
+				\item Time-sharing
+				\item Multiprogramming
+				\item Interprocess communication
+				\item Virtual memory with swapping
+				\item Minix file system
+				\item Uniform device interface
+			\end{itemize}
+		\end{frame}
+
+		\begin{frame}
+		\frametitle{The Nanvix Operating System}
+		\framesubtitle{User-Land Features}
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Standard C Library
+				\item Unix-Like utilities
+
+				\end{itemize}
+				\begin{figure}
+					\centering
+					\includegraphics[width=0.8\textwidth]{nanvix}
+					\caption{Nanvix running.}
+				\end{figure}
+		\end{frame}
+
+\section{The Nanvix Kernel}
+
+		\begin{frame}
+		\frametitle{The Nanvix Operating System}
+		\framesubtitle{Kernel Architecture}
+			\begin{figure}
+				\centering
+				\includegraphics[width=\linewidth]{nanvix-architecture}
+			\end{figure}
+		\end{frame}
+
+\section{Baby Steps}
+
+		\begin{frame}
+		\frametitle{The Nanvix Operating System}
+		\framesubtitle{Source Tree}
+			\begin{itemize}
+			\setlength\itemsep{0.6em}
+			\footnotesize
+				\uncover<1->{
+					\item \texttt{bin}: binaries
+				}
+				\uncover<2->{
+					\item \texttt{doc}: documentation
+				}
+				\uncover<3->{
+					\item \texttt{include}
+					\begin{itemize}
+					\setlength\itemsep{0.2em}
+					\footnotesize
+						\item \texttt{include/dev}: device drivers headers
+						\item \texttt{include/fs}: file systems headers
+						\item \texttt{include/i386}: platform-specific headers
+						\item \texttt{include/nanvix}: kernel headers
+					\end{itemize}
+				}
+				\uncover<4->{
+					\item \texttt{lib}: libraries
+				}
+				\uncover<5->{
+					\item \texttt{src} 
+					\begin{itemize}
+					\setlength\itemsep{0.2em}
+					\footnotesize
+						\item \texttt{src/kernel}: kernel sources
+						\item \texttt{src/lib}: libraries sources
+						\item \texttt{src/sbin}: superuser utilities sources
+						\item \texttt{src/ubin}: user utilities sources
+					\end{itemize}
+				}
+			\end{itemize}
+		\end{frame}
+
+	\begin{frame}[containsverbatim]
+	\frametitle{The Nanvix Operating System}
+	\framesubtitle{Building Development Tools}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\item Build cross-compiler
+		\begin{itemize}
+			\item GCC and GNU Binutils
+		\end{itemize}
+
+		\item Build virtual machine with debug support
+		\begin{itemize}
+			\item Bochs Emulator
+		\end{itemize}
+
+		\item Required to build Nanvix properly
+	\end{itemize}
+	\vfill	
+	\begin{lstlisting}[language=bash,numbers=none,frame=single]
+$ cd ~
+$ git clone https://github.com/ppenna/nanvix
+$ cd ~/nanvix
+$ sudo bash tools/dev/setup-toolchain.sh
+$ sudo bash tools/dev/setup-bochs.sh
+$ sudo reboot now
+	\end{lstlisting}
+	\end{frame}
+
+	\begin{frame}[containsverbatim]
+	\frametitle{The Nanvix Operating System}
+	\framesubtitle{Building \& Running}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\item Build the kernel
+
+		\item Build user utilities 
+
+		\item Start Bochs and run Nanvix
+	\end{itemize}
+	\vfill
+	\begin{lstlisting}[language=bash,numbers=none,frame=single]
+$ cd ~
+$ git clone https://github.com/ppenna/nanvix
+$ cd ~/nanvix
+$ make nanvix
+$ sudo make image
+$ sudo bash tools/run/run.sh
+	\end{lstlisting}
+	\end{frame}
+
+\end{document}
