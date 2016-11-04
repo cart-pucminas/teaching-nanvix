@@ -9,15 +9,61 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 744.09448819 1052.3622047"
+   width="183.72667mm"
+   height="112.6737mm"
+   viewBox="0 0 651.00001 399.23751"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="paging.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker4843"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4845"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4592"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mend"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4598"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(-0.6,-0.6)"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -25,22 +71,30 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="189.76255"
-     inkscape:cy="835.34866"
+     inkscape:zoom="1.4"
+     inkscape:cx="190.02357"
+     inkscape:cy="202.12471"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
-     inkscape:window-width="1360"
-     inkscape:window-height="624"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
-     inkscape:window-maximized="1">
+     inkscape:window-width="1881"
+     inkscape:window-height="1056"
+     inkscape:window-x="39"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
     <inkscape:grid
        type="xygrid"
-       id="grid4136" />
+       id="grid4136"
+       originx="-44.500001"
+       originy="-601.83248" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -57,81 +111,79 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-44.5,-51.292204)">
     <g
-       id="g4326">
-      <g
-         id="g4311">
-        <rect
-           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1"
-           id="rect4138"
-           width="129"
-           height="24"
-           x="100.5"
-           y="72.862206"
-           inkscape:transform-center-y="-3.5714286" />
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-weight:normal;font-size:14.97101402px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           x="114.18958"
+       id="g4311">
+      <rect
+         inkscape:transform-center-y="-3.5714286"
+         y="72.862206"
+         x="100.5"
+         height="24"
+         width="129"
+         id="rect4138"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1" />
+      <text
+         transform="scale(0.99806764,1.0019361)"
+         sodipodi:linespacing="125%"
+         id="text4140"
+         y="88.276291"
+         x="114.18958"
+         style="font-style:normal;font-weight:normal;font-size:14.97101402px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '"
            y="88.276291"
-           id="text4140"
-           sodipodi:linespacing="125%"
-           transform="scale(0.99806764,1.0019361)"><tspan
-             sodipodi:role="line"
-             id="tspan4142"
-             x="114.18958"
-             y="88.276291"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Directory Num.</tspan></text>
-      </g>
-      <g
-         id="g4316">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           x="258.00549"
+           x="114.18958"
+           id="tspan4142"
+           sodipodi:role="line">Directory Num.</tspan></text>
+    </g>
+    <g
+       id="g4316">
+      <text
+         sodipodi:linespacing="125%"
+         id="text4140-8-5"
+         y="88.439705"
+         x="258.00549"
+         style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '"
            y="88.439705"
-           id="text4140-8-5"
-           sodipodi:linespacing="125%"><tspan
-             sodipodi:role="line"
-             id="tspan4142-7-2"
-             x="258.00549"
-             y="88.439705"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Page Num.</tspan></text>
-        <rect
-           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1"
-           id="rect4138-4"
-           width="129"
-           height="24"
-           x="229.5"
-           y="72.862206" />
-      </g>
-      <g
-         id="g4321">
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           x="403.59586"
+           x="258.00549"
+           id="tspan4142-7-2"
+           sodipodi:role="line">Page Num.</tspan></text>
+      <rect
+         y="72.862206"
+         x="229.5"
+         height="24"
+         width="129"
+         id="rect4138-4"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1" />
+    </g>
+    <g
+       id="g4321">
+      <text
+         sodipodi:linespacing="125%"
+         id="text4140-8"
+         y="89.984703"
+         x="403.59586"
+         style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '"
            y="89.984703"
-           id="text4140-8"
-           sodipodi:linespacing="125%"><tspan
-             sodipodi:role="line"
-             id="tspan4142-7"
-             x="403.59586"
-             y="89.984703"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Offset</tspan></text>
-        <rect
-           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1"
-           id="rect4138-4-5"
-           width="129"
-           height="24"
-           x="358.5"
-           y="72.862206" />
-      </g>
+           x="403.59586"
+           id="tspan4142-7"
+           sodipodi:role="line">Offset</tspan></text>
+      <rect
+         y="72.862206"
+         x="358.5"
+         height="24"
+         width="129"
+         id="rect4138-4-5"
+         style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.99999994;stroke-opacity:1" />
     </g>
     <g
        id="g4413"
-       transform="translate(-10,70.499992)">
+       transform="translate(-8.5,138.1675)">
       <rect
          y="117.36221"
          x="100"
@@ -163,8 +215,21 @@
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Directory Entry</tspan></text>
       </g>
     </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="114.42847"
+       y="242.4397"
+       id="text4415"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4417"
+         x="114.42847"
+         y="242.4397"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Page Directory</tspan></text>
     <g
-       id="g4425">
+       id="g4425"
+       transform="translate(5.5,48.500011)">
       <rect
          y="147.36221"
          x="325"
@@ -196,38 +261,87 @@
              style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Page Table Entry</tspan></text>
       </g>
     </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="366.32812"
+       y="182.7722"
+       id="text4415-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4417-8"
+         x="366.32812"
+         y="182.7722"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Page Table</tspan></text>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
+       id="rect4255-2-4"
+       width="144.5"
+       height="194.5"
+       x="550.5"
+       y="75.697227" />
     <g
-       id="g4437">
+       id="g4432"
+       transform="translate(50,-89.999993)">
       <rect
-         y="142.36221"
+         y="212.8622"
          x="500.5"
-         height="194.5"
+         height="49.000004"
          width="144.5"
-         id="rect4255-2-4"
+         id="rect4255-0-2-4"
          style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1" />
-      <g
-         id="g4432">
-        <rect
-           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-opacity:1"
-           id="rect4255-0-2-4"
-           width="144.5"
-           height="49.000004"
-           x="500.5"
-           y="212.8622" />
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-weight:normal;font-size:14.97101402px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           x="518.26965"
+      <text
+         transform="scale(0.99806764,1.0019361)"
+         sodipodi:linespacing="125%"
+         id="text4140-5-1-1"
+         y="240.72862"
+         x="518.26965"
+         style="font-style:normal;font-weight:normal;font-size:14.97101402px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '"
            y="240.72862"
-           id="text4140-5-1-1"
-           sodipodi:linespacing="125%"
-           transform="scale(0.99806764,1.0019361)"><tspan
-             sodipodi:role="line"
-             id="tspan4142-73-3-9"
-             x="518.26965"
-             y="240.72862"
-             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Physical Address</tspan></text>
-      </g>
+           x="518.26965"
+           id="tspan4142-73-3-9"
+           sodipodi:role="line">Physical Address</tspan></text>
     </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="583.91113"
+       y="62.607204"
+       id="text4415-2-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4417-8-3"
+         x="583.91113"
+         y="62.607204"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Page Frame</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)"
+       d="m 165,97.362205 0,84.999995 -120,0 0,170 45,0"
+       id="path4539"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4843)"
+       d="m 295,97.362205 0,194.999995 35,0"
+       id="path4541"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 420,97.362205 0,49.999995 130,0"
+       id="path4565"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="242.08524"
+       y="62.032204"
+       id="text4851"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4853"
+         x="242.08524"
+         y="62.032204"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Latin Modern Roman';-inkscape-font-specification:'Latin Modern Roman, '">Virtual Address</tspan></text>
   </g>
 </svg>
