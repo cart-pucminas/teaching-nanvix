@@ -1,0 +1,331 @@
+\documentclass{beamer}
+
+% Frame Number
+\setbeamertemplate{footline}[frame number]
+
+% Input Encoding
+\usepackage[utf8]{inputenc}
+
+% PDF Bookmarks
+\usepackage{url}
+\usepackage{hyperref} 
+\hypersetup{colorlinks}
+\hypersetup{bookmarksopen}
+\hypersetup{bookmarksnumbered}
+\hypersetup{citecolor=blue}
+\hypersetup{urlcolor=blue}
+\hypersetup{linkcolor=blue}
+
+% Spacing
+\usepackage{xspace}
+
+% Figures
+\usepackage{graphicx}
+\graphicspath{{../../img/}}
+\usepackage{subcaption}
+
+% Tables
+\usepackage{booktabs}
+
+% Strike Through
+\usepackage{ulem}
+
+% Code Snippet 
+\usepackage{listings}
+\lstset{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  numbers=left,
+  stepnumber=2,
+  language=C,
+  tabsize=2,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{blue},
+  commentstyle=\itshape\color{gray},
+  identifierstyle=\bfseries\color{black},
+  stringstyle=\bfseries\color{purple},
+}
+
+% Title
+\title[Nanvix]{%
+	\textbf{%
+		The Nanvix Operating System\\
+		\small{Security}
+	}
+}
+
+% Authors
+\author[Pedro H. Penna]{%
+	Pedro H. Penna%
+}
+
+% Affiliations
+\institute{
+	\url{pedrohenriquepenna@gmail.com}
+}
+
+% Short-Hands
+\newcommand{\ie}{\textit{ie.\xspace}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Barebones on Security}
+
+	\begin{frame}
+	\frametitle{Barebones on Security}
+	\framesubtitle{Motivation}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Computer networks
+		}
+
+		\uncover<2->{
+			\item Multiuser
+		}
+
+		\uncover<3->{
+			\item Multiprogramming and time sharing
+		}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Barebones on Security}
+	\framesubtitle{Rules of Thumb}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+			\item Data \alert<1->{confidentiality}
+			\begin{itemize}
+			\uncover<2->{
+				\item Secrets should remain in secret
+			}
+			\end{itemize}
+
+			\item Data \alert<1->{integrity}
+			\begin{itemize}
+			\uncover<3->{
+				\item Unauthorized changes to data should be denied
+			}
+			\end{itemize}
+			
+			\item System \alert<1->{availability}
+			\begin{itemize}
+			\uncover<4->{
+				\item Nobody can disturb the system to make it unusable
+			}
+			\end{itemize}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Barebones on Security}
+	\subtitle{Data Confidentiality}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Exposure of data
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Steal passwords
+				\item Retrieve classified information
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Data access grated to authorized people only
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Owner of data may change access permissions
+				\item Operating system should deny unauthorized accesses
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Barebones on Security}
+	\subtitle{Data Integrity}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Tampering with data
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Play with sensitive content
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Data may be modified only by authorized people
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Permissions should be granted by the owner of data
+				\item Substantial changes should be approved by the owner of data
+				\item Operating system should deny unauthorized
+				modifications
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Barebones on Security}
+	\subtitle{System Availability}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Denial of service
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Rule over some resource
+				\item Make the system unavailable
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Resources should be available
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item No user shall monopolize resources
+				\item Operating system should allocate resources
+				\item Operating system shall be crash tolerant
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
+
+\section{Attacks}
+
+	\subsection{Logic Bombs}
+
+	\subsection{Back Doors}
+
+	\subsection{Login Spoofing}
+
+	\subsection{Buffer Overflow}
+
+	\subsection{Code Injection}
+
+	\subsection{Trojan Horses}
+
+	\subsection{Spywares}
+
+	\subsection{Worms}
+
+	\subsection{Virus}
+
+\section{Defenses}
+
+	\subsection{Rules of Thumb}
+
+	\subsection{Cryptography}
+
+	\subsection{Firewalls}
+
+		\begin{frame}
+		\frametitle{Defenses}
+		\framesubtitle{Firewalls}
+		\begin{itemize}
+		\setlength\itemsep{1.5em}
+			\uncover<1->{
+				\item Problems on network connectivity
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Traffic sniffing
+					\item External invasions
+				\end{itemize}
+			}
+			\uncover<2->{
+				\item Firewalls
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Keep intruders out
+					\item Ensure data integrity on in/out traffic
+					\item Set of rules state what is allowed
+				\end{itemize}
+			}
+		\end{itemize}
+		\end{frame}
+	
+		\begin{frame}
+		\frametitle{Defenses}
+		\framesubtitle{Firewalls}
+		\begin{itemize}
+		\setlength\itemsep{1.0em}
+			\uncover<1->{
+				\item Hardware firewalls
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Protect machines in a LAN
+					\item Dedicated device placed between the ISP and
+					LAN
+				\end{itemize}
+			}
+			\uncover<2->{
+				\item Software firewalls
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Protect a single machine
+					\item Dedicated software in the operating system
+				\end{itemize}
+			
+			}
+			\uncover<3->{
+				\item Stateless firewalls
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Inspect the header of every network package
+				\end{itemize}
+			}
+			\uncover<4->{
+				\item Stateful firewalls
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Keeps track of connections
+				\end{itemize}
+			}
+			\uncover<5->{
+				\item Intrusion detect system
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Inspects the content of network packages
+				\end{itemize}
+			}
+		\end{itemize}
+		\end{frame}
+
+	\subsection{Antivirus}
+
+		\begin{frame}
+		\frametitle{Defenses}
+		\framesubtitle{Antivirus}
+		\begin{itemize}
+		\setlength\itemsep{1.5em}
+			\item Malicious software
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Information stealing
+				\item System crash
+			\end{itemize}
+
+			\item Fighting heuristics (antivirus)
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Virus scanners
+				\item Integrity checkers
+				\item Behavioral checkers
+			\end{itemize}
+		\end{itemize}
+		\end{frame}
+
+		\begin{frame}
+		\frametitle{Defenses}
+		\framesubtitle{Antivirus}
+		\end{frame}
+		
+	\subsection{Authentication}
+
+\end{document}
