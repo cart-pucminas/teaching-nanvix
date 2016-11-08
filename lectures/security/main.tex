@@ -197,24 +197,117 @@
 	\end{itemize}
 	\end{frame}
 
-\section{Attacks}
+	\begin{frame}[noframenumbering]
+		\frametitle{Presentation Outline}
+		\tableofcontents
+	\end{frame}
 
-	\subsection{Logic Bombs}
+	\AtBeginSection[]
+	{
+		\begin{frame}[noframenumbering]
+			\frametitle{Presentation Outline}
+			\tableofcontents[currentsection]
+		\end{frame}
+	}
 
-	\subsection{Back Doors}
+\section{Security Threats}
 
-	\subsection{Login Spoofing}
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Inside Attacks}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Logic Bombs
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Malicious code
+				\item Planted by the programmer
+				\item Used for blackmailing
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Back Doors
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Bypass authentication
+				\item Planted by the programmer
+				\item Used for trespassing security clearances
+			\end{itemize}
+		}
+		\uncover<3->{
+			\item Login Spoofing
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Fake login program
+				\item Used for stealing passwords from other users
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
 
-	\subsection{Buffer Overflow}
-
-	\subsection{Code Injection}
-
-	\subsection{Trojan Horses}
-
-	\subsection{Spywares}
-
-	\subsection{Worms}
-
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Exploit Attacks}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Buffer overflow
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item No bound checks on arrays
+				\item Intentionally overflow an array
+				\item Insert malicious code in the array
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Code injection
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item No validation on input fields
+				\item External command runs the input field
+				\item Inject malicious code in the input
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{External Attacks}
+	\begin{itemize}
+		\uncover<1->{
+			\item Trojan Horse
+			\begin{itemize}
+				\item Instrument the binary file of an application
+				\item Embed malicious code in it
+				\item Copy the Trojan to the disk when the program
+				runs
+				\item Open a remote connection
+				\item Take control over the infected machine
+				\item Spyware: monitor user's activity
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Worm
+			\begin{itemize}
+				\item Self-reproducing program
+				\item Bootstrap downloads the worm to a target machine
+				\item Exploits security breaches on the operating
+				system
+			\end{itemize}
+		}
+		\uncover<3->{
+			\item Virus
+			\begin{itemize}
+				\item Infected binary file
+				\item Payload with malicious code
+				\item Self-reproducing program
+				\item Trojan Horses, Worms, Spywares
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
 	\subsection{Virus}
 
 \section{Defenses}
@@ -304,28 +397,132 @@
 		\framesubtitle{Antivirus}
 		\begin{itemize}
 		\setlength\itemsep{1.5em}
-			\item Malicious software
-			\begin{itemize}
-			\setlength\itemsep{0.5em}
-				\item Information stealing
-				\item System crash
-			\end{itemize}
-
-			\item Fighting heuristics (antivirus)
-			\begin{itemize}
-			\setlength\itemsep{0.5em}
-				\item Virus scanners
-				\item Integrity checkers
-				\item Behavioral checkers
-			\end{itemize}
+			\uncover<1->{
+				\item Malicious software
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Information stealing
+					\item System crash
+				\end{itemize}
+			}
+			\uncover<2->
+			{
+				\item Fighting heuristics (antivirus)
+				\begin{itemize}
+				\setlength\itemsep{0.5em}
+					\item Virus scanners
+					\item Integrity checkers
+					\item Behavioral checkers
+				\end{itemize}
+			}
 		\end{itemize}
 		\end{frame}
 
 		\begin{frame}
 		\frametitle{Defenses}
-		\framesubtitle{Antivirus}
+		\framesubtitle{Antivirus -- Virus Scanners}
+		\begin{itemize}
+		\setlength\itemsep{1.5em}
+			\uncover<1->{
+				\item Infect goat files (dummy programs)
+			}
+			\uncover<2->{
+				\item Isolate the virus signature (virus code)
+			}
+			\uncover<3->{
+				\item Enter the virus code in a data base
+			}
+			\uncover<4->{
+				\item Scan executable files seeking for virus signatures
+				\begin{itemize}
+					\item Heuristic search
+				\end{itemize}
+			}
+		\end{itemize}
 		\end{frame}
 		
+		\begin{frame}
+		\frametitle{Defenses}
+		\framesubtitle{Antivirus -- Integrity Checkers}
+		\begin{itemize}
+		\setlength\itemsep{1.5em}
+			\uncover<1->{
+				\item Scan the disk from viruses (virus scan)
+			}
+			\uncover<2->{
+				\item Compute checksum for executable files
+				\begin{itemize}
+					\item Hash functions: SHA-1, SHA-2 and MD5
+				\end{itemize}
+			}
+			\uncover<3->{
+				\item Store the checksum somewhere safe
+			}
+			\uncover<4->{
+				\item On next scan do checksumming
+				\begin{itemize}
+					\item Infected files will have unmatching checksums
+				\end{itemize}
+			}
+		\end{itemize}
+		\end{frame}
+
+		\begin{frame}
+		\frametitle{Defenses}
+		\framesubtitle{Antivirus -- Behavioral Checkers}
+		\begin{itemize}
+		\setlength\itemsep{1.5em}
+			\uncover<1->{
+				\item Antivirus resides in memory
+			}
+			\uncover<2->{
+				\item Wrap system calls
+			}
+			\uncover<3->{
+				\item Monitor all the activity in the system
+			}
+			\uncover<4->{
+				\item Deny suspicious actions
+			}
+		\end{itemize}
+		\end{frame}
+
 	\subsection{Authentication}
+
+		\begin{frame}
+		\frametitle{Defenses}
+		\framesubtitle{Authentication}
+		\begin{itemize}
+		\setlength\itemsep{1.5em}
+			\uncover<1->{
+				\item Fake users
+				\begin{itemize}
+					\item Malicious actions
+				\end{itemize}
+			}
+			\uncover<2->{
+				\item Authenticate users on login
+				\begin{itemize}
+					\item Login name
+					\item Password
+				\end{itemize}
+			}
+			\uncover<3->{
+				\item Store credentials somewhere safe
+				\begin{itemize}
+					\item File with restricted access permissions
+					\item Encrypted file
+				\end{itemize}
+			}
+			\uncover<4->{
+				\item Biometry authentication 
+				\begin{itemize}
+					\item Fingerprinting
+					\item Iris recognition
+					\item DNA profiling
+				\end{itemize}
+			}
+		\end{itemize}
+		\end{frame}
 
 \end{document}
