@@ -214,7 +214,7 @@
 
 	\begin{frame}
 	\frametitle{Security Threats}
-	\framesubtitle{Inside Attacks}
+	\framesubtitle{Inside Attacks -- Logic Bombs and Login Spoofing}
 	\begin{itemize}
 	\setlength\itemsep{1.5em}
 		\uncover<1->{
@@ -227,15 +227,6 @@
 			\end{itemize}
 		}
 		\uncover<2->{
-			\item Back Doors
-			\begin{itemize}
-			\setlength\itemsep{0.5em}
-				\item Bypass authentication
-				\item Planted by the programmer
-				\item Used for trespassing security clearances
-			\end{itemize}
-		}
-		\uncover<3->{
 			\item Login Spoofing
 			\begin{itemize}
 			\setlength\itemsep{0.5em}
@@ -248,81 +239,165 @@
 
 	\begin{frame}
 	\frametitle{Security Threats}
-	\framesubtitle{Exploit Attacks}
+	\framesubtitle{Inside Attacks -- Back Doors}
 	\begin{itemize}
-	\setlength\itemsep{1.5em}
-		\uncover<1->{
-			\item Buffer overflow
-			\begin{itemize}
-			\setlength\itemsep{0.5em}
-				\item No bound checks on arrays
-				\item Intentionally overflow an array
-				\item Insert malicious code in the array
-			\end{itemize}
-		}
-		\uncover<2->{
-			\item Code injection
-			\begin{itemize}
-			\setlength\itemsep{0.5em}
-				\item No validation on input fields
-				\item External command runs the input field
-				\item Inject malicious code in the input
-			\end{itemize}
-		}
+	\setlength\itemsep{0.5em}
+		\item Bypass authentication
+		\item Planted by the programmer
+		\item Used for trespassing security clearances
 	\end{itemize}
+	%
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.55\textwidth]{back-door}
+		\caption{A simple back door.}
+	\end{figure}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Exploit Attacks -- Buffer Overflow}
+	\begin{itemize}
+	\setlength\itemsep{0.5em}
+		\item No bound checks on arrays
+		\item Intentionally overflow an array
+		\item Insert malicious code in the array
+	\end{itemize}
+	%
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.75\textwidth]{buffer-overflow}
+		\caption{Buffer overflow technique.}
+	\end{figure}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Exploit Attacks -- Command Injection}
+	\begin{itemize}
+	\setlength\itemsep{0.5em}
+		\item No validation on input fields
+		\item External command runs the input field
+		\item Inject malicious code in the input
+	\end{itemize}
+	%
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.80\textwidth]{command-injection}
+		\caption{Command injection technique.}
+	\end{figure}
 	\end{frame}
 	
 	\begin{frame}
 	\frametitle{Security Threats}
-	\framesubtitle{External Attacks}
+	\framesubtitle{Viruses}
 	\begin{itemize}
+	\setlength\itemsep{1.5em}
 		\uncover<1->{
-			\item Trojan Horse
-			\begin{itemize}
-				\item Instrument the binary file of an application
-				\item Embed malicious code in it
-				\item Copy the Trojan to the disk when the program
-				runs
-				\item Open a remote connection
-				\item Take control over the infected machine
-				\item Spyware: monitor user's activity
-			\end{itemize}
+			\item Self-reproducing program
 		}
 		\uncover<2->{
-			\item Worm
+			\item Payload with malicious code
 			\begin{itemize}
-				\item Self-reproducing program
-				\item Bootstrap downloads the worm to a target machine
-				\item Exploits security breaches on the operating
-				system
+				\item Spread chaos
+				\item Monitor activity of users
+				\item Take control over the remote machine
+				\item Open a connection with a remote machine
 			\end{itemize}
 		}
 		\uncover<3->{
-			\item Virus
+			\item Several flavors
 			\begin{itemize}
-				\item Infected binary file
-				\item Payload with malicious code
-				\item Self-reproducing program
-				\item Trojan Horses, Worms, Spywares
+				\item Worms
+				\item Trojan Horses
+				\item Spywares
 			\end{itemize}
 		}
 	\end{itemize}
 	\end{frame}
-	\subsection{Virus}
+
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Viruses}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\item Companion Virus
+		\begin{itemize}
+			\item Runs instead of a trusted program
+		\end{itemize}
+
+		\item Overwriting Virus
+		\begin{itemize}
+			\item Overwrites binary files with its code
+		\end{itemize}
+
+		\item Parasitic Virus
+		\begin{itemize}
+			\item Infects a binary file
+		\end{itemize}
+
+		\item Memory-Resident Virus
+		\begin{itemize}
+			\item Resides in-code either in user libraries or in the
+			kernel
+		\end{itemize}
+	
+		\item Boot Sector Virus
+		\begin{itemize}
+			\item Installs itself in the master boot record
+		\end{itemize}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Viruses -- Virus Types}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\item Head viruses
+		\item Tail viruses
+		\item Cavity viruses
+	\end{itemize}
+	%
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.8\textwidth]{virus-types}
+		\caption{Parasitic virus types.}
+	\end{figure}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Viruses -- Virus Encryption}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\item Code obfuscation
+	\end{itemize}
+	%
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.8\textwidth]{virus-encryption}
+		\caption{Virus encryption technique.}
+	\end{figure}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Security Threats}
+	\framesubtitle{Viruses -- Virus Mutation}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.8\textwidth]{virus-mutation}
+		\caption{Virus mutation technique.}
+	\end{figure}
+	\end{frame}
 
 \section{Defenses}
-
-	\subsection{Rules of Thumb}
-
-	\subsection{Cryptography}
-
-	\subsection{Firewalls}
 
 		\begin{frame}
 		\frametitle{Defenses}
 		\framesubtitle{Firewalls}
 		\begin{itemize}
-		\setlength\itemsep{1.5em}
+		\setlength\itemsep{1.0em}
 			\uncover<1->{
 				\item Problems on network connectivity
 				\begin{itemize}
@@ -341,6 +416,12 @@
 				\end{itemize}
 			}
 		\end{itemize}
+		%
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.70\textwidth]{hardware-firewall}
+			\caption{Hardware firewall.}
+		\end{figure}
 		\end{frame}
 	
 		\begin{frame}
@@ -389,8 +470,6 @@
 			}
 		\end{itemize}
 		\end{frame}
-
-	\subsection{Antivirus}
 
 		\begin{frame}
 		\frametitle{Defenses}
@@ -486,8 +565,6 @@
 			}
 		\end{itemize}
 		\end{frame}
-
-	\subsection{Authentication}
 
 		\begin{frame}
 		\frametitle{Defenses}
