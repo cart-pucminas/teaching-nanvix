@@ -368,10 +368,11 @@
 
 	\begin{frame}
 	\frametitle{Security Threats}
-	\framesubtitle{Viruses -- Virus Encryption}
+	\framesubtitle{Viruses -- Virus Compress and Encryption}
 	\begin{itemize}
 	\setlength\itemsep{1.0em}
-		\item Code obfuscation
+		\item Compress: avoid file size check detection
+		\item Encrypt: avoid signature detection
 	\end{itemize}
 	%
 	\begin{figure}
@@ -384,6 +385,11 @@
 	\begin{frame}
 	\frametitle{Security Threats}
 	\framesubtitle{Viruses -- Virus Mutation}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\item Avoid signature detection
+	\end{itemize}
+	%
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.8\textwidth]{virus-mutation}
@@ -393,213 +399,304 @@
 
 \section{Defenses}
 
-		\begin{frame}
-		\frametitle{Defenses}
-		\framesubtitle{Firewalls}
-		\begin{itemize}
-		\setlength\itemsep{1.0em}
-			\uncover<1->{
-				\item Problems on network connectivity
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Traffic sniffing
-					\item External invasions
-				\end{itemize}
-			}
-			\uncover<2->{
-				\item Firewalls
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Keep intruders out
-					\item Ensure data integrity on in/out traffic
-					\item Set of rules state what is allowed
-				\end{itemize}
-			}
-		\end{itemize}
-		%
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Rules of Thumb}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Deny access by default
+		}
+		\uncover<2->{
+			\item Always check for permissions
+		}
+		\uncover<3->{
+			\item Give users minimum privileges
+		}
+		\uncover<4->{
+			\item Authenticate users
+		}
+	\end{itemize}
+	\end{frame}
+
+
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Cryptography}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Cornerstone technique that enables security
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Data encryption
+				\item Password scrambling
+				\item Digital signatures
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Secrets should remain in secret
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Encode a plaintext using a secret key
+				\item Store/transmit encrypted data
+				\item Decode encrypted data using a secret key
+				\item Distribute encryption/decryption keys to trusted
+				people
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}	
+
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Cryptography}
+	\begin{figure}
+		\centering
+		\includegraphics[width=1.00\textwidth]{cryptography}
+		\caption{Cryptography in use.}
+	\end{figure}
+	\end{frame}	
+
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Cryptography}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Symmetric-Key Algorithms
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Single key used for encryption/decryption
+				\item Key should kept in secret
+				\item Caesar Encryption
+				\item Data Encryption Standard (DES)
+				\item Advanced Encryption Standard (AES)
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Asymmetric-Key Algorithms
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Public key used for encryption
+				\item Private key for decryption
+				\item  Diffie–Hellman Key Exhange Protocol
+				\item ElGamal Encryption
+				\item Rivest-Shamir-Adleman Encryption (RSA)
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}[t]
+	\frametitle{Defenses}
+	\framesubtitle{Firewalls}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\uncover<1->{
+			\item Problems on network connectivity
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Traffic sniffing
+				\item External invasions
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Firewalls
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Keep intruders out
+				\item Ensure data integrity on in/out traffic
+				\item Set of rules state what is allowed
+			\end{itemize}
+		}
+	\end{itemize}
+	%
+	\only<2>{
 		\begin{figure}
 			\centering
 			\includegraphics[width=0.70\textwidth]{hardware-firewall}
 			\caption{Hardware firewall.}
 		\end{figure}
-		\end{frame}
-	
-		\begin{frame}
-		\frametitle{Defenses}
-		\framesubtitle{Firewalls}
-		\begin{itemize}
-		\setlength\itemsep{1.0em}
-			\uncover<1->{
-				\item Hardware firewalls
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Protect machines in a LAN
-					\item Dedicated device placed between the ISP and
-					LAN
-				\end{itemize}
-			}
-			\uncover<2->{
-				\item Software firewalls
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Protect a single machine
-					\item Dedicated software in the operating system
-				\end{itemize}
-			
-			}
-			\uncover<3->{
-				\item Stateless firewalls
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Inspect the header of every network package
-				\end{itemize}
-			}
-			\uncover<4->{
-				\item Stateful firewalls
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Keeps track of connections
-				\end{itemize}
-			}
-			\uncover<5->{
-				\item Intrusion detect system
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Inspects the content of network packages
-				\end{itemize}
-			}
-		\end{itemize}
-		\end{frame}
+	}
+	\end{frame}
 
-		\begin{frame}
-		\frametitle{Defenses}
-		\framesubtitle{Antivirus}
-		\begin{itemize}
-		\setlength\itemsep{1.5em}
-			\uncover<1->{
-				\item Malicious software
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Information stealing
-					\item System crash
-				\end{itemize}
-			}
-			\uncover<2->
-			{
-				\item Fighting heuristics (antivirus)
-				\begin{itemize}
-				\setlength\itemsep{0.5em}
-					\item Virus scanners
-					\item Integrity checkers
-					\item Behavioral checkers
-				\end{itemize}
-			}
-		\end{itemize}
-		\end{frame}
-
-		\begin{frame}
-		\frametitle{Defenses}
-		\framesubtitle{Antivirus -- Virus Scanners}
-		\begin{itemize}
-		\setlength\itemsep{1.5em}
-			\uncover<1->{
-				\item Infect goat files (dummy programs)
-			}
-			\uncover<2->{
-				\item Isolate the virus signature (virus code)
-			}
-			\uncover<3->{
-				\item Enter the virus code in a data base
-			}
-			\uncover<4->{
-				\item Scan executable files seeking for virus signatures
-				\begin{itemize}
-					\item Heuristic search
-				\end{itemize}
-			}
-		\end{itemize}
-		\end{frame}
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Firewalls}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\uncover<1->{
+			\item Hardware firewalls
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Protect machines in a LAN
+				\item Dedicated device placed between the ISP and
+				LAN
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Software firewalls
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Protect a single machine
+				\item Dedicated software in the operating system
+			\end{itemize}
 		
-		\begin{frame}
-		\frametitle{Defenses}
-		\framesubtitle{Antivirus -- Integrity Checkers}
-		\begin{itemize}
-		\setlength\itemsep{1.5em}
-			\uncover<1->{
-				\item Scan the disk from viruses (virus scan)
-			}
-			\uncover<2->{
-				\item Compute checksum for executable files
-				\begin{itemize}
-					\item Hash functions: SHA-1, SHA-2 and MD5
-				\end{itemize}
-			}
-			\uncover<3->{
-				\item Store the checksum somewhere safe
-			}
-			\uncover<4->{
-				\item On next scan do checksumming
-				\begin{itemize}
-					\item Infected files will have unmatching checksums
-				\end{itemize}
-			}
-		\end{itemize}
-		\end{frame}
+		}
+		\uncover<3->{
+			\item Stateless firewalls
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Inspect the header of every network package
+			\end{itemize}
+		}
+		\uncover<4->{
+			\item Stateful firewalls
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Keeps track of connections
+			\end{itemize}
+		}
+		\uncover<5->{
+			\item Intrusion detect system
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Inspects the content of network packages
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
 
-		\begin{frame}
-		\frametitle{Defenses}
-		\framesubtitle{Antivirus -- Behavioral Checkers}
-		\begin{itemize}
-		\setlength\itemsep{1.5em}
-			\uncover<1->{
-				\item Antivirus resides in memory
-			}
-			\uncover<2->{
-				\item Wrap system calls
-			}
-			\uncover<3->{
-				\item Monitor all the activity in the system
-			}
-			\uncover<4->{
-				\item Deny suspicious actions
-			}
-		\end{itemize}
-		\end{frame}
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Antivirus}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Malicious software
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Information stealing
+				\item System crash
+			\end{itemize}
+		}
+		\uncover<2->
+		{
+			\item Fighting heuristics (antivirus)
+			\begin{itemize}
+			\setlength\itemsep{0.5em}
+				\item Virus scanners
+				\item Integrity checkers
+				\item Behavioral checkers
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
 
-		\begin{frame}
-		\frametitle{Defenses}
-		\framesubtitle{Authentication}
-		\begin{itemize}
-		\setlength\itemsep{1.5em}
-			\uncover<1->{
-				\item Fake users
-				\begin{itemize}
-					\item Malicious actions
-				\end{itemize}
-			}
-			\uncover<2->{
-				\item Authenticate users on login
-				\begin{itemize}
-					\item Login name
-					\item Password
-				\end{itemize}
-			}
-			\uncover<3->{
-				\item Store credentials somewhere safe
-				\begin{itemize}
-					\item File with restricted access permissions
-					\item Encrypted file
-				\end{itemize}
-			}
-			\uncover<4->{
-				\item Biometry authentication 
-				\begin{itemize}
-					\item Fingerprinting
-					\item Iris recognition
-					\item DNA profiling
-				\end{itemize}
-			}
-		\end{itemize}
-		\end{frame}
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Antivirus -- Virus Scanners}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Infect goat files (dummy programs)
+		}
+		\uncover<2->{
+			\item Isolate the virus signature (virus code)
+		}
+		\uncover<3->{
+			\item Enter the virus code in a data base
+		}
+		\uncover<4->{
+			\item Scan executable files seeking for virus signatures
+			\begin{itemize}
+				\item Heuristic search
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Antivirus -- Integrity Checkers}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Scan the disk from viruses (virus scan)
+		}
+		\uncover<2->{
+			\item Compute checksum for executable files
+			\begin{itemize}
+				\item Hash functions: SHA-1, SHA-2 and MD5
+			\end{itemize}
+		}
+		\uncover<3->{
+			\item Store the checksum somewhere safe
+		}
+		\uncover<4->{
+			\item On next scan do checksumming
+			\begin{itemize}
+				\item Infected files will have unmatching checksums
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Antivirus -- Behavioral Checkers}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Antivirus resides in memory
+		}
+		\uncover<2->{
+			\item Wrap system calls
+		}
+		\uncover<3->{
+			\item Monitor all the activity in the system
+		}
+		\uncover<4->{
+			\item Deny suspicious actions
+		}
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Defenses}
+	\framesubtitle{Authentication}
+	\begin{itemize}
+	\setlength\itemsep{1.5em}
+		\uncover<1->{
+			\item Fake users
+			\begin{itemize}
+				\item Malicious actions
+			\end{itemize}
+		}
+		\uncover<2->{
+			\item Authenticate users on login
+			\begin{itemize}
+				\item Login name
+				\item Password
+			\end{itemize}
+		}
+		\uncover<3->{
+			\item Store credentials somewhere safe
+			\begin{itemize}
+				\item File with restricted access permissions
+				\item Encrypted file
+			\end{itemize}
+		}
+		\uncover<4->{
+			\item Biometry authentication 
+			\begin{itemize}
+				\item Fingerprinting
+				\item Iris recognition
+				\item DNA profiling
+			\end{itemize}
+		}
+	\end{itemize}
+	\end{frame}
 
 \end{document}
