@@ -3,10 +3,12 @@
 
 \newif\ifbr
 \newif\ifen
+\newif\iffr
 
 % Output Language
-\brtrue \usepackage[brazilian]{babel}
-%\entrue \usepackage[english]{babel}
+%\brtrue \usepackage[brazilian]{babel}
+\entrue \usepackage[english]{babel}
+%\frtrue \usepackage[french]{babel}
 
 \usepackage[parfill]{parskip}
 
@@ -20,14 +22,23 @@
 \date{}
 \else\ifen
 \title{Process Scheduling}
-\author{
-	Pedro H. Penna, Henrique Freitas,\\%
-	Márcio Castro and Jean-François Méhaut\\[0.3em]
-	\small Pontifical Catholic University of Minas Gerais\\
-	\small Federal University of Santa Catarina\\
-	\small University of Grenoble Aples}
-\date{}
-\fi\fi
+\author {
+	Pedro Penna$^{1,2}$, Henrique Freitas$^{1}$,\\
+	Marcio Castro$^{2}$, Jean-François Méhaut$^{3}$\\[0.3em]
+	\small $^{1}$ Pontifical University of Minas Gerais (PUC Minas), Belo Horizonte, Brazil\\
+	\small $^{2}$ Federal University of Santa Catarina (UFSC), Florianapolis, Brazil\\
+	\small $^{3}$ Grenoble Alpes University (UGA), Polytech Grenoble, France}
+\date {}
+\else\iffr
+\title{Ordonnancement de Processus}
+\author {
+	Pedro Penna$^{1,2}$, Henrique Freitas$^{1}$,\\
+	Marcio Castro$^{2}$, Jean-François Méhaut$^{3}$\\[0.3em]
+	\small $^{1}$ Pontifical University of Minas Gerais (PUC Minas), Belo Horizonte, Brazil\\
+	\small $^{2}$ Federal University of Santa Catarina (UFSC), Florianapolis, Brazil\\
+	\small $^{3}$ Université Grenoble Alpes (UGA), Polytech Grenoble, France}
+\date {}
+\fi\fi\fi
 
 
 \begin{document}
@@ -50,7 +61,16 @@
 	management subsystem in Nanvix, the process scheduler. First, you shall
 	study the current implementation, and then you shall propose
 	enhancements in it.
-\fi\fi
+\else\iffr
+	\noindent Le processus est l'abstraction clé de tout système
+	d'exploitation. La conséquence est qu'un système d'exploitation,
+	comme Nanvix, repose sur ce concept. Pour cette étape, vous
+	travaillerez sur le module principal du sous-système de gestion des
+	processus de Nanvix, l'ordonnanceur de processus (\textit{process
+	scheduler}). Au départ, vous étudierez et analyserez
+	l'implémentation fournie avec Nanvix, et vous proposerez et
+	implémenterez ensuite des extensions à cet ordonnanceur.
+\fi\fi\fi
 
 \end{abstract}
 
@@ -102,7 +122,43 @@
 	 carried out by the scheduler component of the process management
 	 subsystem and it has great impact on the performance,
 	 responsiveness and fairness of the system.
-\fi\fi
+\else\iffr
+	\subsection*{Contexte}
+
+		Nanvix est un système d'exploitation multitâches ({\em multitasking}).
+		Pour cela, Nanvix supporte l'exécution concurrente de plusieurs
+		programmes. Pour fournir cette fonctionnalité, comme d'autres systèmes
+		d'exploitation, Nanvix s'appuie sur les processus, une abstraction de
+		programme en cours d'exécution ({\em running program}), qui encapsule
+		le flot d'exécution, les variables, la pile d'exécution et toutes les
+		informations importantes qui concernent le programme lui-même. Avec
+		cette abstraction, le travail du système d'exploitation est
+		d'attribuer le processeur à chacun des processus en cours d'exécution
+		sur le système. Le noyau du système doit donc être capable de changer
+		le contexte du processeur pour passer rapidement d'un processus à un
+		autre.  Pour effectuer ce changement de contexte entre deux processus,
+		le système va avoir besoin de restaurer les registres du processeur
+		ainsi que l'environnement mémoire avec les données et variables que le
+		processus admis à s'exécuter va manipuler. De cette manière, le
+		système d'exploitation va donner l'illusion que les programmes
+		s'exécutent simultanément.
+
+		Cependant, une phase importante de l'ordonnancuer est la sélection du
+		nouveau processus qui va s'exécuter sur le processeur. Avec plusieurs
+		processus présents dans le système, il y a plusieurs choix potentiels
+		pour activer un nouveau processus:
+
+		\begin{itemize}
+			\item Celui qui attend depuis le plus longtemps,
+			\item Celui qui a presque terminé son exécution
+			\item Celui qui a la plus haute priorité.
+		\end{itemize}
+
+		Le choix que va faire l'ordonnanceur aura une grande importance sur
+		l'interactivité, la performance l'équitabilité pour le
+		partage des ressources de la plate-forme.
+
+\fi\fi\fi
 
 \ifbr
 	\subsubsection*{Descrição do Projeto}
@@ -169,8 +225,50 @@
 		solution. In addition, we will provide benchmarking programs so that
 		you ca test and argue about the strengths and weaknesses of you
 		design.
+\else\iffr
+	\section*{Description du travail}
 
-\fi\fi
+		L'ordonnancement de processus du système Nanvix suit une politique
+		simple de tourniquet ({\em round robin}): l'ordonnanceur affecte
+		à chaque processus un quantum de temps et il ordonancera l'ensemble
+		des processus en tourniquet. Pour faire cela, le système d'exploitation
+		conserve pour chaque processus un compteur qui indique la date depuis
+		laquelle le processus attend d'être exécuté. Quand le quantum
+		de temps du processus courant arrive à expiration, l'ordonanceur
+		choisit le processus qui attend depuis le plus longtemps. C'est donc
+		ce processus, avec le plus grand temps d'attente,  qui est sélectionné
+		pour s'exécuter.
+
+		Cette stratégie est facile à implémenter et permet l'équité pour
+		des systèmes à tâche unique. Cependant, il n'est pas suffisant
+		pour des systèmes plus robustes qui supportent le multi-tâches.
+		Par exemple, imaginez un scénario qui comprend un processus
+		interactif avec un terminal (édition de texte) et $99$ autres processus
+		qui effectuent principalement du calcul. Si l'ordonnanceur affecte un quantum
+		de temps de $100$ ms (milli-seconde) à chaque processus, chaque processus
+		va s'exécuter toutes les $10$ secondes. Si cela ne pose pas de problème
+		pour les processus consommateurs de processeur, cela est très ennuyeux
+		pour le processus interactif et l'utilisateur vivra une mauvaise
+		expérience et remettra peut-être en cause l'efficacité de son éditeur...
+
+		Pour résoudre ce problème, vous aller implémenter une politique
+		d'ordonnancement équitable qui sera basée sur les priorités. Pour ce
+		nouvel ordonanncement, à chaque décision d'ordonanncement, le
+		processus avec la plus grande priorité sera sélectionnée pour
+		s'exécuter. Pour l'exemple précédent, le processus interactif aura une
+		plus grande priorité que les $99$ processus qui font du calcul. Pour
+		commener, vous mettrez en place un dispostif de priorité statique. La
+		priorité d'un processus est fixée une fois pour toute et ne change
+		pas. Un dispositif de priorité dynamique sera proposé dans un second
+		temps.
+
+		Vous fournirez pour cette étape un rapport décrivant votre solution
+		et les modifications que vous avez apporter au code de Nanvix.
+
+		Nous vous fournirons des programmes d'évaluation que vous pourrez
+		tester. Vous expliquerez les avantages et les inconvénients de votre
+		solution.
+\fi\fi\fi
 
 \ifbr
 	\subsubsection*{Por Onde Começar?}
@@ -203,6 +301,25 @@
 		In this assignment, you should focus on the \texttt{sched.c}.
 		More precisely in the \texttt{yield()} routine, which is the
 		implementation of the process scheduler itself.
-\fi\fi
+\else\iffr
+	\section*{Conseils}
+
+		L'implémentation du sous-système de gestion de processus se trouve
+		dans le répertoire {\tt kernel/pm}. Il se décompose en plusieurs
+		fichiers:
+
+		\begin{itemize}
+		\item {\tt pm.c} initialise le sous-système de gestion de processus.
+
+		\item {\tt sched.c} contient l'ordonnanceur de processus.
+
+		\item {\tt sleep.c} contient l'implémentation du {\tt sleep ()} et {\tt wakeup ()}.   
+		\end{itemize}
+
+		Pour cette étape, vous travaillerez principalement sur le fichier {\tt sched.c}
+		et plus précisément sur la routine {\tt yield ()}. C'est le corps de cette
+		fonction qui effectue l'ordonancement, c'est à dire qui choisit le prochain
+		processus à exécuter.
+\fi\fi\fi
 
 \end{document}
