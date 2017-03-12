@@ -1,0 +1,160 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}             
+\usepackage[T1]{fontenc}              
+
+\usepackage{fullpage}
+\usepackage{array,multirow,bigdelim}
+\usepackage{charter}
+\usepackage{paralist}
+\usepackage{xcolor}
+
+\usepackage[francais]{babel} 
+\usepackage{listings}
+\usepackage{url}
+\usepackage{authblk}
+
+\usepackage{graphicx}
+
+\usepackage{mathpazo}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.multipart, calc, arrows}
+
+\tikzstyle{bplus}=[rectangle split, rectangle split horizontal,rectangle split ignore empty parts,draw, fill=white]
+\tikzstyle{every node}=[bplus]
+\tikzstyle{level 1}=[sibling distance=90mm]
+\tikzstyle{level 2}=[sibling distance=45mm]
+\tikzstyle{level 3}=[sibling distance=30mm]
+\usetikzlibrary{arrows}
+\usetikzlibrary{chains}
+
+
+\newcommand\eg{$=$}
+\newcommand\pl{$+$}
+\newcommand\mn{$-$}
+\newcommand\sep{;~~~~}
+
+
+\title {Architectures des Systèmes (AS)\\
+Polytech Grenoble (RICM4)\\
+\vspace {0.3cm}
+Stratégie de remplacement de page
+\author {Pedro Penna$^{1,2}$, Henrique Freitas$^{1}$, Marcio Castro$^{2}$, Jean-François Méhaut$^{3}$
+  \\
+  $^{1}$ Pontifical University of Minas Gerais (PUC Minas), Belo Horizonte, Brazil\\
+  $^{2}$ Federal University of Santa Catarina (UFSC), Florianapolis, Brazil\\
+  $^{3}$ Université Grenoble Alpes (UGA), Polytech Grenoble, France
+  }
+\date {18 Janvier 2017}
+}
+
+\begin{document}
+
+\maketitle
+
+L'espace de mémoire d'un ordinateur est organisé de manière hiérarchique avec différents niveaux
+de cache (L1, L2 et L3), des registres et la mémoire centrale (DRAM). Le système
+d'exploitation tient un rôle de gestionnaire. Plus précisément, il aura à allouer un espace
+de mémoire physique pour le code et les données des programmes/processus. L'approche utilisée
+par les systèmes d'exploitation repose sur la pagination.
+
+Avec cette approche, une des fonctionnalités principales est de maintenir dans la mémoire physique
+les pages les plus utilisées et de placer sur les disques les pages qui ne sont pas utilisées. Dans
+le système Nanvix, ce travail est effectué par le composant de remplacement de page.Au cours de cette
+étape, vous proposerez des améliorations au composant de remplacement de page qui vous est fourni.
+
+
+\section*{Contexte}
+
+Le principal objectif pour le système d'exploitation est de donner à
+l'utilisateur l'illusion qu'il dispose d'un espace mémoire infiniment
+grand, rapide et non volatile. C'est ainsi que la mémoire de
+l'ordinateur est organisé hiérarchiquement autour d'un espace mémoire
+volatile (registre, cache, mémoire physique DRAM) et d'un espace
+mémoire non volatile (disques).  Avec cette approche, les espaces de
+mémoire rapide et de taille réduite sont placés près du processeeur,
+alors que les espaces mémoire de grande taile et moins rapide sont
+plus éloignées du processeur.
+
+Avec cette hiérarchie, le rôle du système d'exploitation doit être
+celui d'un gestionnaire, qui travaille de manière efficace (décisions
+rapides) et transparente. Pour atteindre ces objectifs, les systèmes
+d'exploitation modernes sur une technique hybride
+(matérielle/logicielle) appelée mémoire virtuelle ({\em virtual
+  memory}).
+
+L'approche de la mémoire virtuelle repose sur le mécanisme de
+pagination. L'espace d'adressage d'un processus est découpé dans des
+entités de taille égale qu'on appelle des pages. Les pages de la
+mémoire virtuelle sont placées dans des cadres de mémoire physique
+qu'on appelle en anglais {\em page frames} ou en Français des cadres
+de mémoire physique. Les pages de la mémoire virtuelle d'un processus
+sont placées, soit en mémoire centrale physique, soit sur un espace de
+mémoire secondaire comme un disque.  De cette manière, un ensemble de
+processus peut partager la mémoire centrale physique, même si toutes
+les pages ne tiennent pas toutes en mémoire au même moment.
+
+Pour maintenir cette illusion de l'espace mémoire infini avec les
+pages de mémoire virtuelle et les cadres de mémoire physique, le
+travail du système d'exploitation consiste à maintenir dans la mémoire
+physique (dans les cadres de mémoire physique) toutes les pages qui
+sont fréquemment utilisées et de stocker sur le disque celles qui ne
+le sont pas. Cette gestion des pages de mémoire virtuelle a un grand
+impact sur les performances. Il s'agit en particulier d'essayer de
+minimiser les défauts de page et par conséquent minimiser les
+opérations de lecture ou d'écriture disque qui sont particulièrement
+coûteuses.
+
+
+\section*{Description du travail}
+
+Le composant de remplacement de page du système Nanvix repose sur la
+stratégie du premier entré premier sorti ({\em Fisrt In First
+  Out}). Quand un défaut de page survient, ({\bf et qu'il n'y a plus
+  de place en mémoire physique?}), le système choisit comme page
+vicitime pour le processus la plus vieille page qui soit en mémoire
+physique. Cette page victime sera écrite sur le disque et la page
+manquante sera placée dans le cadre de mémoire physique qui vient de
+se libérer. Cependant, cette stratégie a de mauvaises performances,
+plus précisément quand le processus présente des schémas d'accès
+réguliers aux données, ce qui est particulièrement vrai pour le
+programme de multiplication de matrices.
+
+Si on reprend ce programme de multiplication de deux matrices qui ne
+tiennent pas complètement dans la mémoire physique de
+l'ordinateur. Dans ce cas, la meilleure stratégie n'est pas de
+conserver en mémoire les pages les plus récemment utilisées, mais de
+maintenir en mémoire celles qui appartiennet à un ensemble de travail
+({\em working set}) du programme, que sont les pages qui contiennent
+les lignes et les colonnes courantes qui doivent être multipliées.
+
+Pour résoudre ce problème, vous allez modifier l'algorithme de
+remplacement de page qui est fourni avec Nanvix. Vous proposerez un
+nouvel algorithme qui offre de meilleures performances. Vous
+présenterez une analyse de performance quantitative de votre
+solution. Vous utiliserez le programme de multiplication de matrices
+qui est fourni avec le système. N'oubliez pas que des algorithmes
+basés sur le {\em working set} ou ceux basés sur le vieillissement
+({\em aging}) conduisent à de bonnes performances.
+
+\section*{Conseils}
+
+L'implémentation de la gestion mémoire se trouve dans le répertoire {\tt kernel/mm}.
+Il y a plusieurs fichiers:
+
+\begin{itemize}
+\item {\tt mm.c} initialise le sous-système de gestion mémoire.
+
+\item {\tt paging.c} contient le système de pagination ({\em swapping}).
+
+\item {\tt region.c} contient la gestion des régions.   
+\end{itemize}
+
+Pour cette étape, vous travaillerez principalement sur le fichier {\tt paging.c}.
+Plus précisément dans la fonction {\tt allocf} qui implémente l'algorithme de remplacement
+de page. Le programme source du code de  multiplication de matrice se trouve dans le
+fichier {\tt src/sbin/test/test.c}
+
+
+\end{document}
