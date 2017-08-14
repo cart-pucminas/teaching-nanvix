@@ -55,7 +55,7 @@
 \label{section: introduction}
 
 % About Nanvix.
-Nanvix is an operating system created by Pedro H. Penna for educational purposes. It was designed from scratch to be small and simple, and yet modern and fully featured, so that it could help enthusiasts in operating systems, to learn about kernel hacking. The first release of Nanvix came out in early 2011, and since then the system has undergone through several changes. This paper details the internals of Nanvix 1.2. All previous and future releases are available at \url{github.com/ppenna/nanvix}, under the GPLv3 license.
+Nanvix is an operating system created by Pedro H. Penna for educational purposes. It was designed from scratch to be small and simple, and yet modern and fully featured, so that it could help enthusiasts in operating systems, to learn about kernel hacking. The first release of Nanvix came out in early 2011, and since then the system has undergone through several changes. This paper details the internals of Nanvix 1.2. All previous and future releases are available at \url{https://github.com/nanvix/nanvix}, under the GPLv3 license.
 
 % Paper organization.
 In this section, we present an overview of Nanvix, starting with the system architecture, then presenting the system services, and finally discussing the required hardware to run the system. In later sections, we present a more detailed description of Nanvix.
@@ -242,20 +242,10 @@ A process is created whenever a user launches a program or the system itself spa
 Several processes may be active in the system, but only one can be running at a time\footnote{Nanvix does not support multiprocessor systems, thus processes are indeed not running in parallel.}. The scheduler chooses which process to run next whenever the running process gets preempted or blocks. In user mode, that happens when the running process runs out of quantum and gets preempted by the kernel, or else when it issues a system call. In kernel mode on the other hand, scheduling occurs only when the running process voluntarily relinquishes the processor and goes wait for a resource to be released.
 
 % Scheduling policy.
-The scheduler (Figure \ref{figure: scheduler}) uses a priority based criteria to choose the next process to run, with processes with higher priorities being scheduled to run before those with lower priorities\footnote{Nanvix adopts the Unix's priority system, in which lower values mean higher priorities.}. Processes with equal priorities are chained in a queue and are selected in a round-robin fashion.
-
-% Priorities of a process.
-The priority of a process changes over the time and it is given by the sum of three numbers: base priority, dynamic priority and nice value. The base priority is assigned by the kernel itself and changes as the process sleeps and wakes up from resource queues, and leaves the kernel or enters it. The dynamic priority is increased by the scheduler as the process waits longer in the ready queue. Finally, the nice value is adjusted by the users, exporting them a mechanism to control which processes are more priority over others.
+Processes are scheduled in a round-robin fashion. Although processes do have a base priority (a.k.a static priority), dynamic priority and user priority (nice value) defined in the kernel, these priorities are not taken into account by the scheduling algorithm in the educational version of Nanvix. The base priority is assigned by the kernel itself and changes as the process sleeps and wakes up from resource queues, and leaves the kernel or enters it. The dynamic priority is increased by the scheduler as the process waits longer in the ready queue. Finally, the nice value is adjusted by the users, exporting them a mechanism to control which processes are more priority over others.
 
 % Process switching.
 Once the scheduler chooses which process to run next, the process management subsystem performs the context switching operation. It first pushes the contents of all machine registers in the kernel stack. Then, it instructs the memory management unit hardware to switch to the address space of the selected process. Finally, the state of the machine registers are restored from the kernel stack of the selected process. The context switching operation is machine dependent and it is actually carried on by the hardware abstraction layer.
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[scale=1.4]{img/scheduler}
-	\caption{Scheduler queues.}
-	\label{figure: scheduler}
-\end{figure}
 
 \subsection{Process Creation and Termination}
 
