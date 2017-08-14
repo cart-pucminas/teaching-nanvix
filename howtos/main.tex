@@ -64,8 +64,7 @@ Dentro do diretório do Nanvix você encontrará uma série de arquivos e diret�
 
 As ferramentas utilizadas no desenvolvimento do Nanvix, como no desenvolvimento de qualquer outro sistema operacional, se diferem das utilizadas no desenvolvimento da maioria dos outros tipos de software. Em primeiro lugar, as ferramentas de compilação devem ser compatíveis com a plataforma alvo. Por exemplo, o Nanvix foi projetado para a plataforma x86, portanto as ferramentas utilizadas para compilar o sistema devem ser capazes de gerar código de máquina para essa plataforma. Em segundo lugar, quando trabalha-se em nível de \textit{kernel}, o ambiente de desenvolvimento não provê quaisquer tipo de bibliotecas padrões. Em terceiro lugar, para testar o sistema deve-se utilizar uma máquina dedicada, seja ela real ou virtual. Finalmente, em quarto lugar, as ferramentas de \textit{debugging} disponíveis são restritas.
 
-Para o desenvolvimento do Nanvix, você utilizará duas ferramentas: a \textit{toolchain} GCC-x86, uma coletânea de utilitários que inclui compilador, \textit{assembler} e \textit{linker}; e o Bochs, um emulador para plataforma x86. Para instalar as ferramentas de forma automática execute os seguintes comandos \textbf{a partir do diretório raiz do projeto}: \\
-
+Para o desenvolvimento do Nanvix, você utilizará duas ferramentas: a \textit{toolchain} GCC-x86, uma coletânea de utilitários que inclui compilador, \textit{assembler} e \textit{linker}; e o \textit{Bochs}, um emulador para plataforma x86. Para instalar as ferramentas de forma automática execute os seguintes comandos \textbf{a partir do diretório raiz do projeto}: \\
 
 \begin{lstlisting}[language=bash,numbers=none,frame=single]
 sudo apt-get install make
@@ -88,7 +87,7 @@ make image
 
 O primeiro comando realiza a compilação do Nanvix. Terminado esse processo, todos os binários devem ter sido criados com sucesso. O segundo comando gera uma imagem do sistema, criando-se assim o arquivo \texttt{nanvix.img} no diretório raiz. Esse arquivo é a imagem do sistema e será usado no processo de \textit{boot}, a seguir.
 
-Finalmente, inicie o Nanvix no Bochs, dando \textit{boot} pela imagem de sistema gerada. Para fazer isso de forma automática, execute o seguinte comando \textbf{a partir do diretório raiz do projeto}:\\
+Finalmente, inicie o Nanvix no \textit{Bochs}, dando \textit{boot} pela imagem de sistema gerada. Para fazer isso de forma automática, execute o seguinte comando \textbf{a partir do diretório raiz do projeto}:\\
 
 \begin{lstlisting}[language=bash,numbers=none,frame=single]
 bash tools/run/run.sh
@@ -106,16 +105,13 @@ Pronto! Em caso de sucesso, você verá o Nanvix sendo inicializado. Após a ini
 
 \section{\textit{Debugging} com o Nanvix}
 
-Para realizar o \textit{debug} do Nanvix, o que pode ser muito útil na resolução de \textit{bugs} e outros problemas que surgirão durante o desenvolvimento de código no \textit{kernel}, será necessário o uso do \textit{gdb}, cujo uso e integração serão definidos nessa seção.
+Para realizar o \textit{debug} do Nanvix, o que pode ser muito útil na resolução de \textit{bugs} e outros problemas que surgirão durante o desenvolvimento de código no \textit{kernel}, será necessário o uso do GDB, cujo uso e integração serão definidos nessa seção. Caso você esteja numa conexão remota (e.g., usando \texttt{ssh}), é extremamente sugerido o uso do \texttt{tmux} para evitar a necessidade de criar mais de uma conexão \texttt{ssh}, visto que quando o \textit{Bochs} está rodando ele assume o comando do \textit{shell} inteiro. Nesse caso, instale o \texttt{tmux} usando o comando \texttt{sudo apt-get install tmux}. Após a instalação, execute o comando \texttt{tmux} e pressione CTRL+B+\% para abrir dois \textit{panes}. Em seguida, use CTRL+B+(seta para direita ou seta para a esquerda) para alterar livremente entre os terminais. Mais informações podem ser vistas diretamente no manual do \texttt{tmux} disponível em: \url{https://leanpub.com/the-tao-of-tmux/read}.
 
-Para começar, utilize o seguinte comando para inicializar o Bochs com suporte ao GDB em um terminal: \\
+Para rodar o Nanvix em modo \textit{debug} e ativar o suporte ao GDB utilize o seguinte comando em um terminal: \\
 
 \begin{lstlisting}[language=bash,numbers=none,frame=single]
 bash tools/run/run.sh --debug
 \end{lstlisting}
-
-\textbf{Observação Importante}: Caso você esteja numa conexão remota (ex.: ssh), é extremamente sugerido o uso do \texttt{tmux} para evitar a necessidade de criar mais de uma conexão \textit{ssh}, visto que quando o \textit{bochs} está rodando ele assume o comando do shell inteiro. Neses caso, instale o tmux, usando \texttt{sudo apt-get install tmux}, execute o comando \texttt{tmux}, e pressione CTRL+B+\% para abrir dois \textit{panes}. Em seguida, use CTRL+B+(seta para direita ou seta para a esquerda) para alterar livremente pelos terminais. Mais informações podem ser vistas diretamente no manual do \texttt{tmux}: \url{https://leanpub.com/the-tao-of-tmux/read}
-
 
 Depois, inicialize o GDB \textbf{em um outro terminal} a partir do diretório raiz do projeto, usando o seguinte comando: \\
 
@@ -139,10 +135,9 @@ Segue uma explicação breve aos comandos informados acima:
 	\item Define que a máquina deve continuar sua execução.
 \end{enumerate}
 
-Pronto! Em caso de sucesso você verá o GDB conectado ao Bochs, como mostra a Figura~\ref{fig:terminal-gdb}. Após a execução do comando \texttt{cont}, o \textit{shell} do Nanvix ficará disponível na tela do \textit{Bochs} e o \textbf{GDB ficará bloqueado}. Para liberar o \textit{shell} do GDB novamente, aperte \textbf{CTRL+C} no \textit{shell} do GDB. Dessa forma, o GDB pausará a execução do Nanvix novamente e permitirá o controle da execução em modo \textit{debug} através do GDB.
+Pronto! Em caso de sucesso você verá o GDB conectado ao \textit{Bochs}, como mostra a Figura~\ref{fig:terminal-gdb}. Após a execução do comando \texttt{cont}, o \textit{shell} do Nanvix ficará disponível na tela do \textit{Bochs} e o \textbf{GDB ficará bloqueado}. Para liberar o \textit{shell} do GDB novamente, aperte \textbf{CTRL+C} no \textit{shell} do GDB. Dessa forma, o GDB pausará a execução do Nanvix novamente e permitirá o controle da execução em modo \textit{debug} através do GDB.
 
-
-Durante a compilação do Nanvix, diversos arquivos contendo as tabelas de símbolos de funções do \textit{kernel} e de programas de sistema e usuário são criados. Porém, essas tabelas de símbolos não são carregadas automaticamente. Para carregar a tabela de símbolos contendo informações sobre todas as funções do \textit{kernel}, você pode usar o comando:\\
+Durante a compilação do Nanvix, diversos arquivos contendo as tabelas de símbolos de funções do \textit{kernel} e de programas de sistema e de usuário são criados. Porém, essas tabelas de símbolos não são carregadas automaticamente. Para carregar a tabela de símbolos contendo informações sobre todas as funções do \textit{kernel}, você pode usar o comando:\\
 
 \begin{lstlisting}[language=sh,numbers=none,frame=single]
 symbol-file bin/kernel
@@ -154,7 +149,7 @@ Se o seu objetivo for realizar o \textit{debug} de algum programa dentro do Nanv
 symbol-file bin/ubin/ls
 \end{lstlisting}
 
-Observe que não é recomendável usar mais de uma tabela de símbolos ao mesmo tempo, pois nesse caso o GDB não é capaz de diferenciar corretamente a respeito do quê está ocorrendo no sistema. Logo, ao realizar esse comando em um \textit{shell} onde a tabela de símbolos do \textit{kernel} já foi carregada o GDB perguntará se a tabela de símbolos deve ser substituída, o que é necessário para realizar o \textit{debugging} de um programa do Nanvix.
+Observe que não é recomendável usar mais de uma tabela de símbolos ao mesmo tempo, pois nesse caso o GDB não será capaz de diferenciar corretamente os símbolos. Logo, ao realizar esse comando em um \textit{shell} onde a tabela de símbolos do \textit{kernel} já foi carregada o GDB perguntará se a tabela de símbolos deve ser substituída, o que é necessário para fazer um \textit{debug} de um programa do Nanvix.
 
 Para definir \textit{breakpoints}, você pode usar o comando \texttt{b} \textbf{depois da tabela de símbolos ser carregada}. Para fazer um \textit{debug} da função \texttt{yield}, por exemplo, é possível simplesmente fazer:\\
 
@@ -168,7 +163,7 @@ No lugar do nome da função, você pode também definir uma linha onde o GDB de
 b main.c:143
 \end{lstlisting}
 
-Observe que a função de \textit{breakpoint} só funciona bem se você carregar a tabela de símbolos usando o comando \textit{symbol-file}, anteriormente especificado, pois é a partir da tabela de símbolos que o GDB consegue identificar os arquivos e funções envolvidos.
+Observe que a função de \textit{breakpoint} só funciona bem se você carregar a tabela de símbolos usando o comando \texttt{symbol-file}, anteriormente especificado, pois é a partir da tabela de símbolos que o GDB consegue identificar os arquivos e funções envolvidos.
 
 Após especificar um \textit{breakpoint}, você poderá utilizar o comando \texttt{cont} para informar o GDB que o mesmo deve parar ao acontecer a próxima ocorrência de qualquer \textit{breakpoint} anteriormente definido. Então, a partir de um determinado \textit{breakpoint}, é possível usar o comando  \texttt{step} para saltar para a próxima instrução:\\
 
@@ -182,16 +177,10 @@ Você também pode saltar um número definido de instruções com uso de um par�
 step 10
 \end{lstlisting}
 
-O comando \texttt{step} permite realizar um \textit{bug} do tipo \textit{step-by-step}. Isso significa que quando uma função é invocada durante o \textit{debug}, o \textit{bugger} fará o desvio para a primeira instrução dentro da função. Caso você queira saltar diretamente para o retorno da função antes de invocá-la, você poderá utilizar o comando \texttt{next}:\\
+O comando \texttt{step} permite realizar um \textit{debug} do tipo \textit{step-by-step}. Isso significa que quando uma função é invocada durante o \textit{debug}, o GDB fará o desvio para a primeira instrução dentro da função. Caso você queira saltar diretamente para o retorno da função antes de invocá-la, você poderá utilizar o comando \texttt{next}:\\
 
 \begin{lstlisting}[language=sh,numbers=none,frame=single]
 next
-\end{lstlisting}
-
-Por fim, para simplesmente pular toda a execução você pode usar o comando \texttt{cont} (que fará com que o \textit{GDB} só pare a execução no próximo \textit{breakpoint}): \\
-
-\begin{lstlisting}[language=sh,numbers=none,frame=single]
-cont
 \end{lstlisting}
 
 Além disso, durante o \textit{debug}, é interessante usar o comando \texttt{print} para imprimir variáveis que possam ser úteis para entender a execução do código. Dessa forma, para imprimir a variável global \texttt{curr\_proc}, que está presente no \textit{kernel} do Nanvix, é possível usar:\\
@@ -200,7 +189,7 @@ Além disso, durante o \textit{debug}, é interessante usar o comando \texttt{pr
 print curr_proc
 \end{lstlisting}
 
-Da mesma forma, é possível usar parte da sintaxe do C para explorar os diferentes atributos que a variável possa ter. Por exemplo:\\
+Da mesma forma, é possível usar parte da sintaxe do C para explorar os diferentes atributos que a variável possa ter. Por exemplo, para imprimir o atributo \texttt{pid} de \texttt{curr\_proc}, faça:\\
 
 \begin{lstlisting}[language=sh,numbers=none,frame=single]
 print curr_proc->pid
@@ -208,9 +197,9 @@ print curr_proc->pid
 
 O comando acima imprime o PID do processo atual em execução (no caso do Nanvix, o PID é um atributo de \texttt{curr\_proc}). Observe que o \texttt{print} também funciona em \textit{breakpoints}, com variáveis locais, sendo portanto bastante útil para entender o que está acontecendo no código.
 
-Por fim, para saber a sequência de chamadas atual, você pode usar o comando \textit{bt}, que imprime o \textit{back-trace} atual do código.
+Por fim, para saber a sequência de chamadas atual, você pode usar o comando \texttt{bt}, que imprime o \textit{back-trace} atual do código.
 
-\textbf{Observação importante:} O Bochs não suporta determinadas operações que o GDB suporta, como \texttt{watch} (para acompanhar o valor de uma variável ao longo do tempo), ou chamadas de função no \texttt{print}. Fazer isso resulta ou em erro, ou em instabilidade do sistema, ou nos dois. Portanto, sua realização não é recomendada. 
+\textbf{Observação importante:} O \textit{Bochs} não suporta determinadas operações que o GDB suporta, como \texttt{watch} (para acompanhar o valor de uma variável ao longo do tempo), ou chamadas de função no \texttt{print}. Fazer isso resulta em erro, em uma instabilidade do sistema ou ambos. Portanto, sua realização não é recomendada. 
 
 Para mais informações a respeito do GDB, consulte o manual em: \url{https://sourceware.org/gdb/current/onlinedocs/gdb/}
 
