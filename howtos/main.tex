@@ -136,16 +136,19 @@ Segue uma explicação breve aos comandos informados acima:
 \begin{enumerate}
 	\item Conecta-se ao \textit{Bochs}, que agora mostrará que há um cliente conectado;
 	\item Define que \textit{page faults} e outras interrupções frequentes devem ser ignoradas completamente pelo GDB. O \texttt{SIGSEGV} aqui é apenas um \textit{alias} para representar essas outras interrupções que são normais durante a execução da máquina;
-	\item Define que a máquina deve continuar sua execução. Depois de realizar esse comando o \textit{shell} do Nanvix ficará disponível na tela do \textit{Bochs}.
+	\item Define que a máquina deve continuar sua execução.
 \end{enumerate}
 
-Pronto! Em caso de sucesso você verá o GDB conectado ao Bochs, como mostra a Figura~\ref{fig:terminal-gdb}. Para realizar o \textit{debug} do \textit{kernel}, você pode usar o comando:\\
+Pronto! Em caso de sucesso você verá o GDB conectado ao Bochs, como mostra a Figura~\ref{fig:terminal-gdb}. Após a execução do comando \texttt{cont}, o \textit{shell} do Nanvix ficará disponível na tela do \textit{Bochs} e o \textbf{GDB ficará bloqueado}. Para liberar o \textit{shell} do GDB novamente, aperte \textbf{CTRL+C} no \textit{shell} do GDB. Dessa forma, o GDB pausará a execução do Nanvix novamente e permitirá o controle da execução em modo \textit{debug} através do GDB.
+
+
+Durante a compilação do Nanvix, diversos arquivos contendo as tabelas de símbolos de funções do \textit{kernel} e de programas de sistema e usuário são criados. Porém, essas tabelas de símbolos não são carregadas automaticamente. Para carregar a tabela de símbolos contendo informações sobre todas as funções do \textit{kernel}, você pode usar o comando:\\
 
 \begin{lstlisting}[language=sh,numbers=none,frame=single]
 symbol-file bin/kernel
 \end{lstlisting}
 
-Observe que, se o objetivo aqui for realizar o \textit{debug} de algum programa dentro do Nanvix (como o \texttt{ls}, por exemplo), é necessário executar o mesmo comando mas informando o caminho executável dentro da pasta \texttt{bin}, por exemplo:\\
+Se o seu objetivo for realizar o \textit{debug} de algum programa dentro do Nanvix (como o \texttt{ls}, por exemplo), é necessário executar o mesmo comando mas informando o caminho executável dentro da pasta \texttt{bin}, por exemplo:\\
 
 \begin{lstlisting}[language=sh,numbers=none,frame=single]
 symbol-file bin/ubin/ls
@@ -167,7 +170,7 @@ b main.c:143
 
 Observe que a função de \textit{breakpoint} só funciona bem se você carregar a tabela de símbolos usando o comando \textit{symbol-file}, anteriormente especificado, pois é a partir da tabela de símbolos que o GDB consegue identificar os arquivos e funções envolvidos.
 
-A partir do \textit{breakpoint}, é possível usar o comando \texttt{step} para saltar para a próxima instrução:\\
+Após especificar um \textit{breakpoint}, você poderá utilizar o comando \texttt{cont} para informar o GDB que o mesmo deve parar ao acontecer a próxima ocorrência de qualquer \textit{breakpoint} anteriormente definido. Então, a partir de um determinado \textit{breakpoint}, é possível usar o comando  \texttt{step} para saltar para a próxima instrução:\\
 
 \begin{lstlisting}[language=sh,numbers=none,frame=single]
 step
@@ -179,7 +182,7 @@ Você também pode saltar um número definido de instruções com uso de um par�
 step 10
 \end{lstlisting}
 
-O comando \texttt{step} permite realizar um \textit{bug} do tipo \textit{step by step}. Isso significa que quando uma função é executada durante o \textit{debug}, o \textit{bugger} fará o desvio para a primeira instrução da função. Caso você queira saltar diretamente para o retorno da função, você poderá utilizar o comando \texttt{next}:\\
+O comando \texttt{step} permite realizar um \textit{bug} do tipo \textit{step-by-step}. Isso significa que quando uma função é invocada durante o \textit{debug}, o \textit{bugger} fará o desvio para a primeira instrução dentro da função. Caso você queira saltar diretamente para o retorno da função antes de invocá-la, você poderá utilizar o comando \texttt{next}:\\
 
 \begin{lstlisting}[language=sh,numbers=none,frame=single]
 next
