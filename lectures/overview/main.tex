@@ -58,8 +58,8 @@
 }
 
 % Authors
-\author[Pedro H. Penna]{%
-	Pedro H. Penna%
+\author[Pedro H. Penna, Márcio Castro]{%
+	Pedro H. Penna, Márcio Castro%
 }
 
 % Affiliations
@@ -88,7 +88,7 @@
 				\item Publicly available under the GPL v3 license at:
 					\\[1em]
 					\begin{center}
-						\url{www.github.com/ppenna/nanvix}
+						\url{https://github.com/nanvix/nanvix}
 					\end{center}
 			\end{itemize}
 
@@ -140,7 +140,7 @@
 			\begin{itemize}
 			\setlength\itemsep{0.5em}
 				\item Standard C Library
-				\item Unix-Like utilities
+				\item Unix-like utilities
 
 				\end{itemize}
 				\begin{figure}
@@ -208,49 +208,114 @@
 	\framesubtitle{Building Development Tools}
 	\begin{itemize}
 	\setlength\itemsep{1.0em}
-		\item Build cross-compiler
-		\begin{itemize}
-			\item GCC and GNU Binutils
-		\end{itemize}
+		\item Install required packets
+	\begin{lstlisting}[language=bash,numbers=none,frame=single]
+$ sudo apt-get install git make
+	\end{lstlisting}
 
-		\item Build virtual machine with debug support
-		\begin{itemize}
-			\item Bochs Emulator
-		\end{itemize}
+		\item Install useful (but not mandatory) packets
+	\begin{lstlisting}[language=bash,numbers=none,frame=single]
+$ sudo apt-get install tmux screen
+	\end{lstlisting}
 
-		\item Required to build Nanvix properly
-	\end{itemize}
-	\vfill	
+		\item Clone Nanvix repository
 	\begin{lstlisting}[language=bash,numbers=none,frame=single]
 $ cd ~
-$ git clone https://github.com/ppenna/nanvix
+$ git clone https://github.com/nanvix/nanvix
 $ cd ~/nanvix
+	\end{lstlisting}
+	\end{itemize}
+
+	\end{frame}
+
+	\begin{frame}[containsverbatim]
+	\frametitle{The Nanvix Operating System}
+	\framesubtitle{Building Development Tools}
+	\begin{itemize}
+	\setlength\itemsep{1.0em}
+		\item Build cross-compiler (GCC and GNU Binutils)
+	\begin{lstlisting}[language=bash,numbers=none,frame=single]
 $ sudo bash tools/dev/setup-toolchain.sh
+	\end{lstlisting}
+
+		\item Install Bochs Emulator
+	\begin{lstlisting}[language=bash,numbers=none,frame=single]
 $ sudo bash tools/dev/setup-bochs.sh
+	\end{lstlisting}
+
+		\item Reboot O.S. (required to build Nanvix properly)
+
+	\begin{lstlisting}[language=bash,numbers=none,frame=single]
 $ sudo reboot now
 	\end{lstlisting}
+
+	\end{itemize}
 	\end{frame}
 
 	\begin{frame}[containsverbatim]
 	\frametitle{The Nanvix Operating System}
 	\framesubtitle{Building \& Running}
-	\begin{itemize}
-	\setlength\itemsep{1.0em}
-		\item Build the kernel
-
-		\item Build user utilities 
-
-		\item Start Bochs and run Nanvix
-	\end{itemize}
-	\vfill
-	\begin{lstlisting}[language=bash,numbers=none,frame=single]
-$ cd ~
-$ git clone https://github.com/ppenna/nanvix
-$ cd ~/nanvix
+		\begin{itemize}
+			\item Build the kernel and O.S. image
+			\begin{lstlisting}[language=bash,numbers=none,frame=single]
 $ make nanvix
-$ sudo make image
-$ sudo bash tools/run/run.sh
-	\end{lstlisting}
+$ make image
+			\end{lstlisting}
+		\end{itemize}
+
+		\begin{itemize}
+			\item Run Nanvix in normal (default) mode
+				\begin{lstlisting}[language=bash,numbers=none,frame=single]
+$ bash tools/run/run.sh
+				\end{lstlisting}
+		\end{itemize}
+
+		\begin{itemize}
+			\item Run Nanvix debug mode with GDB integration
+				\begin{lstlisting}[language=bash,numbers=none,frame=single]
+$ bash tools/run/run.sh --debug
+				\end{lstlisting}
+		\end{itemize}
 	\end{frame}
 
+
+	\begin{frame}[containsverbatim]
+	\frametitle{The Nanvix Operating System}
+	\framesubtitle{Building \& Running}
+		\begin{figure}[t]
+			\captionsetup[subfigure]{
+				labelformat=empty}
+				\begin{subfigure}{0.42\linewidth}
+					\caption{\scriptsize{Nanvix}}
+					\includegraphics[width=\linewidth]{img/terminal-nanvix.png}
+				\end{subfigure}
+				\quad\quad\quad\quad
+				\begin{subfigure}{0.42\linewidth}
+					\caption{\scriptsize{GDB}}
+					\includegraphics[width=\linewidth]{img/terminal-GDB.png}
+				\end{subfigure}
+		\end{figure}
+
+		\begin{minipage}{.4\textwidth}
+			\begin{lstlisting}[language=bash,numbers=none,frame=single,basicstyle=\tiny\ttfamily,]
+$ bash tools/run/run.sh --debug
+			\end{lstlisting}
+		\end{minipage}
+		\hfill
+		\begin{minipage}{.48\textwidth}
+			\begin{lstlisting}[language=bash,numbers=none,frame=single,basicstyle=\tiny\ttfamily,]
+$ gdb
+$ target remote :1234
+$ handle SIGSEGV nostop noprint nopass
+$ cont
+			\end{lstlisting}
+			
+			{\scriptsize Load kernel symbol file:}
+			\begin{lstlisting}[language=bash,numbers=none,frame=single,basicstyle=\tiny\ttfamily,]
+$ symbol-file bin/kernel
+			\end{lstlisting}
+
+		\end{minipage}
+	\end{frame}
+	
 \end{document}
