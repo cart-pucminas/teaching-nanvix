@@ -24,8 +24,11 @@
 \graphicspath{{../../img/}}
 \usepackage{subcaption}
 
-% Tables
+% Tables.
 \usepackage{booktabs}
+\usepackage{multirow}
+\newcommand{\specialcell}[2][c]%
+{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
 % Strike Through
 \usepackage{ulem}
@@ -58,13 +61,14 @@
 }
 
 % Authors
-\author[Pedro H. Penna]{%
-	Pedro H. Penna%
+\author[Pedro H. Penna, Márcio Castro]{%
+	Pedro H. Penna, Márcio Castro%
 }
 
 % Affiliations
 \institute{
-	\url{pedrohenriquepenna@gmail.com}
+	\url{pedrohenriquepenna@gmail.com}\\
+	\url{marcio.castro@ufsc.br}
 }
 
 % Short-Hands
@@ -101,7 +105,6 @@
 				\begin{itemize}
 				\setlength\itemsep{0.5em}
 					\item Fairness
-					\item Policy enforcement
 					\item Load balancing
 				\end{itemize}
 			}
@@ -162,6 +165,80 @@
 			\includegraphics[width=\linewidth]{nanvix-states}
 			\caption{States of a process in Nanvix.}
 		\end{figure}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Process Scheduling in Nanvix}
+	\framesubtitle{Simplified structure of a process}
+
+	\begin{center}
+	\resizebox{0.8\textwidth}{!}{
+            \begin{tabular}{l l l}
+            	\toprule
+            	Category & Field & Description \\
+            	\midrule
+            	\multirow{3}{*}{\specialcell{Context Switch\\Information}} & \texttt{kesp}   & Kernel Stack pointer \\
+            	                                                           & \texttt{kstack} & Kernel Stack         \\
+            	                                                           & \texttt{intlvl} & Interrupt Level      \\
+            	\midrule
+            	\multirow{3}{*}{\specialcell{File System\\Information}} & \texttt{pwd}    & Current Working Directory \\
+            	                                                        & \texttt{ofiles} & Opened Files              \\	
+            	                                                        & \texttt{tty}    & Output Terminal Device    \\
+            	\midrule
+            	\multirow{2}{*}{\specialcell{General\\Information}} & \texttt{status} & Exit status                                          \\
+            	                                                    & \texttt{pid}, \texttt{gid}, \texttt{uid} & Process, group and user IDs \\
+            	\midrule
+            	\multirow{2}{*}{\specialcell{Memory\\Information}} & \texttt{pregs} & Code, data, stack and heap segment regions \\
+            	                                                   & \texttt{pgdir} & Page directory       \\
+            	\midrule
+            	\multirow{4}{*}{\specialcell{Scheduling\\Information}} & \texttt{state}    & Current state       \\
+            	                                                       & \texttt{counter}  & Remaining quantum   \\
+            	                                                       & \texttt{nice}     & Priority adjustment \\	
+            	                                                       & \texttt{priority} & Priority            \\
+            	\midrule
+            	\multirow{2}{*}{\specialcell{Signal\\Information}} & \texttt{received} & Received signals \\
+            	                                                   & \texttt{handler}  & Signal handlers  \\
+            	\midrule
+            	\multirow{2}{*}{\specialcell{Timing\\Information}} & \texttt{utime} & User CPU Time   \\
+            	                                                   & \texttt{ktime} & Kernel CPU Time \\
+            	
+            	\bottomrule
+            \end{tabular}
+	}
+	\end{center}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Process Scheduling in Nanvix}
+	\framesubtitle{Syscalls}
+
+	\begin{itemize}
+		\setlength\itemsep{0.5em}
+		\item Process creation and termination
+		\begin{itemize}
+			\item \texttt{fork()}
+			\item \texttt{exit()}
+		\end{itemize}
+		\item Process synchronization
+		\begin{itemize}
+			\item \texttt{sleep()}
+			\item \texttt{wakeup()}
+			\item \texttt{wait()}
+		\end{itemize}
+		\item Signals
+		\begin{itemize}
+			\item \texttt{signal()}
+			\item \texttt{pause()}
+			\item \texttt{kill()}
+		\end{itemize}
+		\item Process communication
+		\begin{itemize}
+			\item \texttt{pipe()}
+			\item \texttt{read()}
+			\item \texttt{write()}
+		\end{itemize}
+
+	\end{itemize}
 	\end{frame}
 
 	\begin{frame}
