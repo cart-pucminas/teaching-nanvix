@@ -1,0 +1,96 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+
+\usepackage{subfigure}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[cm]{fullpage}
+\usepackage{hyperref}
+
+\usepackage{enumitem}
+
+\newlist{legal}{enumerate}{10}
+\setlist[legal]{label*=\arabic*.}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+}
+
+\newcommand*{\alert}[1]{\vspace{0.4cm}\colorbox{gray!60!white}{\parbox{0.92\linewidth}{{\centering \textbf{IMPORTANTE!}\\}#1}}\vspace{0.4cm}}
+
+\title{Guia Básico do Nanvix: Desenvolvimento de Utilitários de Sistema}
+
+\author{Fernando Jorge Mota e Márcio Castro\\[0.3em]
+\small Universidade Federal de Santa Catarina}
+\date{}
+
+\hyphenation{tool-chain}
+
+\usepackage{url}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+
+O Nanvix possui um conjunto de utilitários básicos de sistema que são compilados juntamente com o \textit{kernel}, tais como \texttt{cat}, \texttt{echo}, \texttt{cp}, \texttt{ps}, \texttt{kill}, \texttt{touch}, entre outros. Porém, é possível você criar o seu próprio utilitário de forma que o mesmo fique disponível e acessível no terminal do Nanvix. Esse guia mostra os passos que você deve seguir para criar um utilitário ``hello world''.
+
+\section{Criando um Utilitário ``Hello World''}
+
+Você deverá realizar alguns poucos passos:
+
+\begin{legal}
+	\item Crie uma pasta em \texttt{src/ubin} com o nome do utilitário que você deseja criar. Chamaremos essa pasta de \texttt{hello} para os fins desse tutorial.
+	\item Dentro dessa pasta, crie um arquivo com extensão ``\texttt{.c}''. O nome não tem restrições, mas usaremos, para fins ilustrativos, o nome \texttt{hello.c}.
+	\item Nesse arquivo, coloque o seguinte código:
+
+\begin{lstlisting}[language=c,numbers=none,frame=single]
+#include <stdio.h>
+int main() {
+   printf("Hello World!\n");
+   return 0;
+}
+\end{lstlisting}
+
+	\item Agora, no arquivo \texttt{makefile} da pasta \texttt{src/ubin}, faça as seguintes modificações:
+
+	\begin{legal}
+		\item Inclua, ao final da seção que possui as linhas começando com \texttt{.PHONY}: uma linha com o seguinte valor:
+
+\begin{lstlisting}[language=bash,numbers=none,frame=single]
+.PHONY: hello
+\end{lstlisting}
+
+		\item Depois, na linha seguinte a que começa com \texttt{all:} inclua o nome do binário (\texttt{hello}):
+
+\begin{lstlisting}[language=bash,numbers=none,frame=single]
+# Builds everything.
+all: cat chgrp chmod chown cp echo kill ln login ls mv nice pwd rm stat sync \
+     touch tsh ps clear nim hello
+\end{lstlisting}
+	
+	\item Inclua uma linha no final do arquivo com o seguinte conteúdo, de forma a permitir a compilação do binário com ligação  à \texttt{libc} do Nanvix:
+
+\begin{lstlisting}[language=bash,numbers=none,frame=single]
+# Builds hello.
+hello:
+   $(CC) $(CFLAGS) $(LDFLAGS) hello/*.c -o $(UBINDIR)/hello $(LIBDIR)/libc.a
+\end{lstlisting}
+
+	\item Por fim, inclua após a seção \texttt{clean:} a seguinte linha para apagar o binário gerado caso venhamos a usar \texttt{make clean}:
+
+\begin{lstlisting}[language=bash,numbers=none,frame=single]
+@rm -f $(UBINDIR)/hello
+\end{lstlisting}
+	\end{legal}
+\end{legal}
+
+Após essas modificações, você poderá compilar novamente o Nanvix (comando \texttt{make nanvix}) e gerar a imagem com o novo binário (comando \texttt{make image}). Depois, execute a máquina virtual usando o comando \texttt{bash tools/run/run.sh} e, no terminal do Nanvix, use o comando \texttt{hello} para executar o programa utilitário criado por você. A mensagem ``\texttt{Hello World!}'' deverá ser impressa na tela.
+
+\alert{Observe que, por se tratar de uma \texttt{libc} limitada, nem todo código que funciona no Linux vai compilar e executar corretamente no Nanvix. Além disso, o binário gerado deverá ter um tamanho limitado para não ultrapassar o limite do tamanho do sistema de arquivos do Nanvix.}
+
+\end{document}
