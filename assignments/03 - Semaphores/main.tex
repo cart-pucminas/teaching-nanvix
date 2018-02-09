@@ -1,6 +1,14 @@
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[brazilian]{babel}
+
+\newif\ifbr
+\newif\ifen
+\newif\iffr
+
+% Output Language
+%\brtrue \usepackage[brazilian]{babel}
+%\entrue \usepackage[english]{babel}
+\frtrue \usepackage[french]{babel}
 
 \usepackage[parfill]{parskip}
 
@@ -9,6 +17,8 @@
 
 % URLs.
 \usepackage[hidelinks,colorlinks=true,urlcolor=blue]{hyperref}
+
+\ifbr
 
 \title{Semáforos}
 
@@ -116,4 +126,165 @@ especificações para manipulação de semáforos nesse projeto consistem em uma
 
 Caso você deseje implementar uma interface mais robusta, que esteja mais conforme o Posix, você será recompensado pelo seu esforço. Procure o professor da disciplina para discutir o assunto em maiores detalhes. Além disso, o grupo que possuir a implementação mais robusta será convidado a submeter um \textit{pull} no repositório de desenvolvimento do Nanvix.
 
+
+\else\iffr
+\title{Sémaphores}
+
+\author{Pedro H. Penna, João Caram, Henrique C. Freitas\\[0.3em]
+  \small Pontifícia Universidade Católica de Minas Gerais (PUC Minas)\\[0.8em]
+  Jean-François Méhaut\\[0.3em]
+  \small Université Grenoble Alpes (UGA)
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+  \noindent Les mécanismes de synchronisation, comme des sémaphores ou
+  des moniteurs permettent aux processus d'accéder à des ressources
+  partagées de manière coordonnée et sécurisée. Dans ce projet, vous allez
+  implémenter les sémaphores dans le \textit {kernel} (noyau) du
+  système Nanvix.
+  
+\end{abstract}
+
+\subsubsection*{Fondements théoriques}
+
+Un sémaphore est objet qui va permettre la synchronisation de
+processus proposée par Edsger Dijkstra en 1965. Le sémaphore est
+composé d'une variable entière (sa valeur) et d'une file d'attente
+(les processus bloqués sur ce sémaphore). Le sémaphore permet un accès
+coordonné et synchronisé aux ressources partagées avec quatre
+opérations de base:
+
+\begin{itemize}
+\item \texttt{create(n)}: créé un sémaphore de sémaphore et l'initialise avec la valeur \texttt {n}.
+
+\item \texttt{down()}: teste la valeur du sémphore. Si cette valeur est
+  supérieure à zéro, elle est décrémentée et le processus appelant continue
+  son exécution normalement. Sinon, le processus est bloqué sur la file
+  d'attente associée au sémaphore.
+
+\item \texttt{up()}: teste si la valeur du sémaphore est nulle. Si c'est
+  le cas, et qu'il y a un processus bloqué dans la file d'attente du sémaphore,
+  ce processus est débloqué. Sinon, la valeur du sémaphore est incrémentée.
+
+\item \texttt{destroy()}: détruit le sémaphore.
+\end{itemize}
+
+Les opérations \texttt {down} et \texttt {up} sont atomiques,
+c'est-à-dire que lorsqu'un processus exécute l'une de ces opérations,
+aucune autre opération ne peut être exécutée sur le même sémaphore.
+Ainsi, l'accès exclusif à une ressource partagée peut être garanti.
+
+\subsubsection*{Description du projet}
+
+Dans la version initiale du système, Nanvix n'offre aucune primitive
+de synchronisation inter-processus. Les processus peuvent avoir à
+gérer des régions et des fichiers en mémoire partagée, mais sans avoir
+l'assurance qu'ils ne perturberont pas le calcul des autres processus
+qui accèdent aux mêmes ressources partagées.
+
+Pour résoudre ce problème, vous devez implémenter l'abstraction de
+sémaphore dans le \textit {kernel} (noyau) du système d'exploitation
+Nanvix. Ces opérations doivent être exportées en tant qu'appels
+système (\textit{system call}) et doivent respecter les spécifications
+suivantes.
+
+\texttt{int semget(unsigned key)}
+
+	\begin{addmargin}[2em]{0em}
+          La fonction \texttt {semget} permet à un processus d'utiliser
+          un sémaphore associé à une clé (\ texttt {key}). Si aucun sémaphore
+          n'est associé à \texttt {key}, un nouveau sémaphore doit être créé.
+
+          En cas de réussite, la fonction retournera l'identificateur
+          du sémaphore associé à la \texttt {clé}.  En cas d'erreur,
+          $-1$ doit être retourné.
+	\end{addmargin}
+
+\texttt{int semctl(int semid, int cmd, int val);}
+
+\begin{addmargin}[2em]{0em}
+
+  La fonction \texttt {semctl ()} permet une série d'opérations de contrôle
+  sur le sémaphore identifié par \texttt {semid}. Ces opérations sont
+  spécifiées par \texttt {cmd} et peuvent être:
+\begin{itemize}
+  \item \texttt{GETVAL}, renvoie la valeur actuelle du sémaphore;
+  \item \texttt {SETVAL}, définit la valeur du sémaphore sur \texttt {val};
+  \item \texttt {IPC\_RMID}, supprime le sémaphore et le détruit s'il n'est
+    plus utilisé.
+\end{itemize}
+
+La valeur de retour de la fonction dépend de \texttt {cmd}.
+Si c'est \texttt {GETVAL}, la valeur actuelle du sémaphore est retournée.
+Dans tous les autres cas d'achèvement réussi, $0$ doit être retourné.
+En cas d'erreur, $-1$ doit être retourné retourné.
+
+\end{addmargin}
+	
+\texttt{int semop(int semid, int op);}
+
+\begin{addmargin}[2em]{0em}
+
+  La fonction \texttt {semop} permet d'effectuer des opérations atomiques
+  incrémentant ou décrémentant la variable associée au sémaphore identifié
+  par \texttt {semid}.
+  
+  Une valeur négative pour \texttt {op} spécifie l'opération \texttt
+  {downw ()} et une valeur positive l'opération \texttt {up ()}.
+
+La fonction retourne $0$ en cas de réussite, ou $-1$ en cas d'erreur.
+	
+\end{addmargin}
+
+Avec le projet, vous devez fournir une brève description de la solution mise
+en {\oe}uvre. Vous implémenterez un programme utilisateur avec des
+processus \textit{producteurs} et des processus \textit{consommateurs}.
+
+
+\subsubsection*{Par où commencer?}
+
+Pour ce projet, nous vous suggèrons d'étudier le contenu
+des fichiers suivants:
+
+
+\begin{itemize}
+    \item \texttt{include/nanvix/syscall.h}: Identificateurs (ID) des appels système.
+    \item \texttt{kernel/pm/sleep.c}: Implémentations des fonctions \texttt{sleep()} et \texttt{wakeup()}.
+    \item \texttt{kernel/sys/syscalls.c}: Table des appels système.
+    \item \texttt{include/sys/sem.h}: Interface utilisateur pour la
+      manipulation des sémaphores.
+    \item \texttt{lib/libc/sys/sem/semget.c}: fonction de la
+      bibliothèque \texttt{semget()}.
+    \item \texttt{lib/libc/sys/sem/semctl.c}: fonction de la biblothèque \texttt{semctl()}.
+    \item \texttt{lib/libc/sys/sem/semop.c}: fonction de la bibliothèque \texttt{semop()}.
+\end{itemize}
+
+Pour ce projet, vous aller devoir créer d'autres fichiers:
+
+\begin{itemize}
+    \item \texttt{kernel/sys/sem.c}: Implémentation de l'abstraction sémaphore.
+    \item \texttt{kernel/sys/sem/semget.c}: Appel système \texttt{sys\_semget()}.
+    \item \texttt{kernel/sys/sem/semctl.c}: Appel système \texttt{sys\_semctl()}.
+    \item \texttt{kernel/sys/sem/semop.c}: Appel système \texttt{sys\_semop()}.
+\end{itemize}
+
+\subsubsection*{Aller au delà}
+
+Les spécifications pour le traitement des sémaphores dans ce projet
+sont une version simplifiée de la version établie par la norme
+IEEE Posix, disponible sur \url {pubs.opengroup.org/stage7tc1/basedefs/sys\_sem.h.html}
+
+Si vous voulez implémenter une interface plus robuste et plus conforme
+à Posix, vous serez récompensés pour vos efforts. Pour plus détail, vous pouvez discuter
+avec les enseignants.
+
+\end{document}
+
+\fi\fi
 \end{document}
