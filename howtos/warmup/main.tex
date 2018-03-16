@@ -1,0 +1,57 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+
+\usepackage{subfigure}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[cm]{fullpage}
+\usepackage{hyperref}
+
+\usepackage{enumitem}
+
+\newlist{legal}{enumerate}{10}
+\setlist[legal]{label*=\arabic*.}
+
+\usepackage{listings}
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+}
+
+\newcommand*{\alert}[1]{\vspace{0.4cm}\colorbox{gray!60!white}{\parbox{0.92\linewidth}{{\centering \textbf{IMPORTANTE!}\\}#1}}\vspace{0.4cm}}
+
+\title{Atividade Prática no Nanvix: Github Classroom Warm-up}
+
+\author{Fernando Jorge Mota e Márcio Castro\\[0.3em]
+\small Universidade Federal de Santa Catarina}
+\date{}
+
+\hyphenation{tool-chain}
+
+\usepackage{url}
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+
+Antes de realizar as atividades propostas neste documento é necessário que você tenha algumas noções básicas sobre o Nanvix e o Github Classroom. Para isso, você deverá ler atentamente os seguintes documentos disponíveis na seção \textit{Nanvix} do Moodle:
+
+\begin{enumerate}
+	\item \textit{Instruções de Download, Uso e Compilação}: contém as informações básicas sobre como compilar e utilizar o Nanvix;
+	\item \textit{Instruções sobre o Git e o Github Classroom}: contém as informações básicas sobre o Git e um passo à passo para começar a utilizar o Github Classroom.
+\end{enumerate}
+
+\section{Atividades Práticas}
+
+Agora que você já leu os documentos mencionados anteriormente, vamos realizar algumas atividades práticas. Elas servirão de aquecimento para os trabalhos práticos da disciplina.
+
+\begin{enumerate}
+	\item Realize os passos descritos no documento \textit{Guia Básico do Nanvix: Desenvolvimento de Utilitários de Sistema}, disponível na seção \textit{Nanvix} do Moodle, para criar o programa \texttt{hello} no Nanvix e faça um teste do mesmo.
+	\item Crie um novo programa utilitário no Nanvix denominado \texttt{fork1}. Quando executado no Nanvix, esse programa deverá criar um processo filho utilizando a chamada de sistema \texttt{fork()}. Ambos os processos pai e filho deverão imprimir na tela a frase \texttt{``Novo processo criado!''}. Você deverá utilizar apenas um \texttt{printf()} para isso.
+	\item Crie um novo programa utilitário no Nanvix denominado \texttt{fork2}. Quando executado no Nanvix, esse programa deverá criar 4 processos filhos. Para cada filho criado, o processo pai deverá imprimir na tela \texttt{``Processo pai XX criou YY''}, onde \texttt{XX} é o PID do pai e \texttt{YY} o PID do filho. Além disso, os processos filhos deverão imprimir na tela \texttt{``Processo filho XX''}, onde \texttt{XX} é o PID do filho. Dica: utilize a função \texttt{getpid()} para retornar o PID do processo corrente.
+\end{enumerate}
+
+\end{document}
