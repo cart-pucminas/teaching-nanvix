@@ -1,0 +1,171 @@
+\documentclass{beamer}
+
+% Frame Number
+\setbeamertemplate{footline}[frame number]
+
+% Input Encoding
+\usepackage[utf8]{inputenc}
+
+% PDF Bookmarks
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{colorlinks}
+\hypersetup{bookmarksopen}
+\hypersetup{bookmarksnumbered}
+\hypersetup{citecolor=blue}
+\hypersetup{urlcolor=blue}
+\hypersetup{linkcolor=blue}
+
+% Spacing
+\usepackage{xspace}
+
+% Figures
+\usepackage{graphicx}
+\graphicspath{{../../img/}}
+\usepackage{subcaption}
+
+% Tables
+\usepackage{booktabs}
+
+% Strike Through
+\usepackage{ulem}
+
+% Code Snippet
+\usepackage{listings}
+\lstset{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  numbers=left,
+  stepnumber=2,
+  language=C,
+  tabsize=2,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{blue},
+  commentstyle=\itshape\color{gray},
+  identifierstyle=\bfseries\color{black},
+  stringstyle=\bfseries\color{purple},
+}
+
+% Title
+\title[Nanvix]{%
+	\textbf{%
+		The Nanvix Operating System\\
+		\small{Unnamed Semaphores}
+	}
+}
+
+% Authors
+\author[Pedro H. Penna]{%
+	Pedro Henrique Penna,
+	Márcio Castro,\\
+	Henrique Freitas and
+	Jean-François Méhaut
+}
+
+% Affiliations
+\institute{
+	Université Grenoble Alpes (UGA)\\
+	Pontifícia Universidade Católica de Minas Gerais (PUC Minas)\\
+	Universidade Federal de Santa Catarina (UFSC)
+}
+
+% Short-Hands
+\newcommand{\ie}{\textit{ie.\xspace}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Background in IPC}
+
+	\begin{frame}
+	\frametitle{Inter-Process Communication}
+		\begin{itemize}
+		\setlength\itemsep{0.8em}
+			\item Overview: enable processes to exchange data
+			\begin{itemize}
+			\setlength\itemsep{0.2em}
+				\item Abstract underlying communication infrastructure
+				\item Ensure security and provide performance
+			\end{itemize}
+
+			\item Memory-based communication facilities
+			\begin{itemize}
+				\item Shared memory regions
+				\item Shared files
+			\end{itemize}
+
+			\item Network-based communication facilities
+			\begin{itemize}
+				\item Pipes
+				\item Signals
+				\item Message queues
+				\item Sockets
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{Inter-Process Synchronization}
+		\begin{itemize}
+		\setlength\itemsep{0.8em}
+			\item Overview: enable correct inter-process communication
+			\begin{itemize}
+			\setlength\itemsep{0.2em}
+				\item Grant mutual exclusion
+				\item Ensure fairness (starvation)
+				\item Be transparent as possible
+			\end{itemize}
+
+			\item Busy-waiting primitives
+			\begin{itemize}
+			\setlength\itemsep{0.2em}
+				\item Disable interrupts
+				\item Atomic instructions
+				\item Spinlocks
+			\end{itemize}
+
+			\item Blocking primitives
+			\begin{itemize}
+			\setlength\itemsep{0.2em}
+				\item Sleep and wakeup
+				\item Mutexes
+				\item Semaphores
+				\item Monitors and barriers
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+\section{IPC in Nanvix}
+
+	\begin{frame}
+	\frametitle{Inter-Process Communication in Nanvix}
+	\framesubtitle{Overview}
+		\begin{itemize}
+		\setlength\itemsep{0.8em}
+			\item Inter-Process Communication
+			\begin{itemize}
+			\setlength\itemsep{0.2em}
+				\item Pipes (\texttt{src/kernel/sys/pipe.c})
+				\item Signals (\texttt{src/kernel/pm/signal.c})
+				\item Shared files (\texttt{src/kernel/fs/file.c})
+				\item Message-queues (missing)
+				\item Shared-memory regions  (missing)
+				\item Sockets (missing)
+			\end{itemize}
+
+			\item Inter-Process Synchronization
+			\begin{itemize}
+			\setlength\itemsep{0.2em}
+				\item Sleep and wakeup (\texttt{src/kernel/pm/sleep.c})
+				\item Mutexes (missing)
+				\item Semaphores (missing)
+				\item Barriers (missing)
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+\end{document}
